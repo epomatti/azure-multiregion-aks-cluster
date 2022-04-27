@@ -7,4 +7,9 @@ docker run -d --name mongodb -p 27017:27017 \
   mongo
 ```
 
-pipenv install --python 3.6
+
+https://github.com/pypa/setuptools/issues/3278
+
+pipenv install
+
+export SETUPTOOLS_USE_DISTUTILS=stdlib
