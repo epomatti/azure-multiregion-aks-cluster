@@ -24,12 +24,12 @@ def create_app():
     @validate_schema(schema=pool_schema)
     def post():
         result = repository.create_poll(request.get_json())
-        return {
-            "response": str(result.inserted_id)
-        }
+        return {"id": str(result.inserted_id)}, 201
 
-    @app.route("/poll", methods=['GET'])
-    def get():
-        return ""
+    @app.route("/poll/<id>", methods=['GET'])
+    def get(id):
+        poll = repository.find_poll(id)
+        poll['_id'] = str(poll['_id'])
+        return poll
 
     return app
