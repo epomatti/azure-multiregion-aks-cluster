@@ -42,12 +42,16 @@ mkdir .venv
 export SETUPTOOLS_USE_DISTUTILS=stdlib
 
 # get the dependencies
-pipenv install
+pipenv install --dev
 
 # start
 export FLASK_ENV=development
 export FLASK_APP=src/app.py
 python3 -m flask run --host=0.0.0.0
+
+
+# clean up
+pipenv -rm
 ```
 
 ### Terraform
@@ -73,5 +77,7 @@ docker run --publish 5000:5000 --name vote-app vote
 ## Sources
 
 ```
+https://pipenv-fork.readthedocs.io/en/latest/basics.html
 https://sourcery.ai/blog/python-docker/
+https://stackoverflow.com/questions/24238743/flask-decorator-to-verify-json-and-json-schema
 ```
