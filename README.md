@@ -63,10 +63,20 @@ terraform validate
 
 ## Docker Development
 
+docker build --tag poll .
 docker build --tag vote .
 
-docker run --publish 5000:5000 --name vote-app vote
+docker run -p 4000:8080 --name poll-app poll
+docker run -p 5000:8080 --name vote-app vote
 
+With compose:
+
+```sh
+docker-compose build
+docker-compose up
+
+docker-compose down
+```
 
 ## Sources
 

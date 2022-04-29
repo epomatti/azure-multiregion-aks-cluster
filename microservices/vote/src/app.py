@@ -1,8 +1,12 @@
 from flask import Flask, request
+from dotenv import load_dotenv
 
 from src import microservices, repository
 from src.validators import validate_schema
 from src.schemas import vote_schema
+
+
+load_dotenv()
 
 app = Flask(__name__)
 BASE_PATH = "/api/vote"
@@ -20,3 +24,7 @@ def post():
     repository.vote(vote_json)
     microservices.increment_pool(vote_json['pool_id'])
     return "", 201
+
+
+def create_app():
+    return app

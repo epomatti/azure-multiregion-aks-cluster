@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  poll:
+    build: ./poll/
+    ports:
+      - "4000:8080"
+    volumes:
+      - .:/code
+    environment:
+      MONGODB_CONNECTION_STRING: mongodb://app:devpass@microservices_mongo_1:27017
+      MONGODB_DATABASE: poll
+    depends_on:
+      - mongo
+  vote:
+    build: ./vote/
+    ports:
+      - "5000:8080"
+    volumes:
+      - .:/code
+    environment:
+      MONGODB_CONNECTION_STRING: mongodb://app:devpass@microservices_mongo_1:27017
+      MONGODB_DATABASE: vote
+      POLL_API: http://microservices_poll_1:8080
+    depends_on:
+      - mongo
+      - poll
+  mongo:
+    image: "mongo"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: app
+      MONGO_INITDB_ROOT_PASSWORD: devpass
