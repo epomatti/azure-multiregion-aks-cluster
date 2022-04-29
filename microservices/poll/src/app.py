@@ -29,7 +29,7 @@ def get_all():
     for doc in polls:
         doc['id'] = str(doc['_id'])
         del doc['_id']
-    return dumps (polls)
+    return dumps(polls)
 
 
 @app.route(f"{BASE_PATH}/<id>", methods=['GET'])
@@ -48,16 +48,14 @@ def increment():
     return ''
 
 # TODO: implement
-
-
-@app.route(f"{BASE_PATH}/val", methods=['POST'])
-@validate_schema(schema=increment_schema)
-def validate():
-    val_json = request.get_json()
-    id = val_json['id']
-    option = val_json['option']
-    repository.increment_votes(id)
-    return ''
+# @app.route(f"{BASE_PATH}/val", methods=['POST'])
+# @validate_schema(schema=increment_schema)
+# def validate():
+#     val_json = request.get_json()
+#     id = val_json['id']
+#     option = val_json['option']
+#     repository.increment_votes(id)
+#     return ''
 
 
 def create_app():

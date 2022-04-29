@@ -9,7 +9,7 @@ from src.schemas import vote_schema
 load_dotenv()
 
 app = Flask(__name__)
-BASE_PATH = "/api/vote"
+BASE_PATH = "/api/votes"
 
 
 @app.route(BASE_PATH, methods=['HEAD'])
