@@ -1,33 +1,80 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: poll-deployment
   labels:
-    app: nginx
+    app: poll
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: poll
   template:
     metadata:
       labels:
-        app: nginx
+        app: poll
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
+        - name: poll-container
+          image: epomatti/azure-failover-poll
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGODB_CONNECTION_STRING
+              value: mongodb://cosmos-k8spomatti:QsnLRa893MDHJvWAoiZKHA7IiSMCqWKrrmypVLRMUUHhLrQgafJY4GKqAZQG90lFpvZ4IbNcAWe9NcYzlyNa3g==@cosmos-k8spomatti.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@cosmos-k8spomatti@
+            - name: MONGODB_DATABASE
+              value: poll
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote-deployment
+  labels:
+    app: vote
+spec:
+  selector:
+    matchLabels:
+      app: vote
+  template:
+    metadata:
+      labels:
+        app: vote
+    spec:
+      containers:
+        - name: vote-container
+          image: epomatti/azure-failover-vote
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGODB_CONNECTION_STRING
+              value: mongodb://cosmos-k8spomatti:QsnLRa893MDHJvWAoiZKHA7IiSMCqWKrrmypVLRMUUHhLrQgafJY4GKqAZQG90lFpvZ4IbNcAWe9NcYzlyNa3g==@cosmos-k8spomatti.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@cosmos-k8spomatti@
+            - name: MONGODB_DATABASE
+              value: vote
+            - name: POLL_API
+              value: http://poll_service:30000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: poll-service
 spec:
-  # Probably remove here for Front Door
   type: LoadBalancer
-  ports:
-  - port: 80
   selector:
-    app: nginx
+    app: poll
+  ports:
+    - protocol: TCP
+      port: 30000
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: vote
+  ports:
+    - protocol: TCP
+      port: 31000
+      targetPort: 8080
