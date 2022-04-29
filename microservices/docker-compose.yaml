@@ -8,7 +8,6 @@ services:
       - .:/code
     environment:
       MONGODB_CONNECTION_STRING: mongodb://app:devpass@microservices_mongo_1:27017
-      MONGODB_DATABASE: poll
     depends_on:
       - mongo
   vote:
@@ -19,7 +18,6 @@ services:
       - .:/code
     environment:
       MONGODB_CONNECTION_STRING: mongodb://app:devpass@microservices_mongo_1:27017
-      MONGODB_DATABASE: vote
       POLL_API: http://microservices_poll_1:8080
     depends_on:
       - mongo

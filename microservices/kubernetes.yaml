@@ -22,8 +22,6 @@ spec:
           env:
             - name: MONGODB_CONNECTION_STRING
               value: mongodb://cosmos-k8spomatti:QsnLRa893MDHJvWAoiZKHA7IiSMCqWKrrmypVLRMUUHhLrQgafJY4GKqAZQG90lFpvZ4IbNcAWe9NcYzlyNa3g==@cosmos-k8spomatti.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@cosmos-k8spomatti@
-            - name: MONGODB_DATABASE
-              value: poll
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,8 +46,6 @@ spec:
           env:
             - name: MONGODB_CONNECTION_STRING
               value: mongodb://cosmos-k8spomatti:QsnLRa893MDHJvWAoiZKHA7IiSMCqWKrrmypVLRMUUHhLrQgafJY4GKqAZQG90lFpvZ4IbNcAWe9NcYzlyNa3g==@cosmos-k8spomatti.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@cosmos-k8spomatti@
-            - name: MONGODB_DATABASE
-              value: vote
             - name: POLL_API
               value: http://poll-service:30000
 ---

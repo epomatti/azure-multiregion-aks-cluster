@@ -6,4 +6,4 @@ def vote(vote):
 
 
 def _get_collection():
-    return mongo.get_collection("vote")
+    return mongo.get_collection("vote", "votes")

@@ -17,4 +17,4 @@ def increment_votes(id):
 
 
 def _get_collection():
-    return mongo.get_collection("poll")
+    return mongo.get_collection("poll", "polls")
