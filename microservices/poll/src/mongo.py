@@ -1,6 +1,7 @@
 import os
 import pymongo
 
+
 def get_collection(collection: str):
     uri = os.environ['MONGODB_CONNECTION_STRING']
     database = os.environ['MONGODB_DATABASE']

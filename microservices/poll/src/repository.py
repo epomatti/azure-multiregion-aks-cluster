@@ -13,7 +13,7 @@ def find_poll(id):
 
 def increment_votes(id):
     _get_collection().update_one({'_id': ObjectId(id)},
-                             {'$inc': {'votes.count': 1}})
+                                 {'$inc': {'votes.count': 1}})
 
 
 def _get_collection():
