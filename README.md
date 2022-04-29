@@ -115,4 +115,6 @@ kubectl create secret generic solution-secrets --from-env-file=secrets.env
 https://pipenv-fork.readthedocs.io/en/latest/basics.html
 https://sourcery.ai/blog/python-docker/
 https://stackoverflow.com/questions/24238743/flask-decorator-to-verify-json-and-json-schema
+https://docs.microsoft.com/en-us/azure/aks/concepts-network
+https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-overview
 ```
