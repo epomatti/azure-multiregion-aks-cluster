@@ -8,6 +8,7 @@ pymongo = "*"
 flask = "*"
 python-dotenv = "*"
 cerberus = "*"
+requests = "*"
 
 [dev-packages]
 autopep8 = "*"

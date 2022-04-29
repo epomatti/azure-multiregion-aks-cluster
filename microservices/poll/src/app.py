@@ -5,41 +5,44 @@ from src.schemas import pool_schema, increment_schema
 from src import repository
 
 
-def create_app():
-    app = Flask(__name__)
+app = Flask(__name__)
 
-    @app.route("/poll", methods=['HEAD'])
-    def head():
-        return ""
 
-    @app.route("/poll", methods=['POST'])
-    @validate_schema(schema=pool_schema)
-    def post():
-        result = repository.create_poll(request.get_json())
-        return {"id": str(result.inserted_id)}, 201
+@app.route("/poll", methods=['HEAD'])
+def head():
+    return ""
 
-    @app.route("/poll/<id>", methods=['GET'])
-    def get(id):
-        poll = repository.find_poll(id)
-        poll['id'] = str(poll['_id'])
-        del poll['_id']
-        return poll
 
-    @app.route("/poll/inc", methods=['PATCH'])
-    @validate_schema(schema=increment_schema)
-    def increment():
-        id = request.get_json()['id']
-        repository.increment_votes(id)
-        return ''
+@app.route("/poll", methods=['POST'])
+@validate_schema(schema=pool_schema)
+def post():
+    result = repository.create_poll(request.get_json())
+    return {"id": str(result.inserted_id)}, 201
 
-    # TODO: implement
-    @app.route("/poll/val", methods=['POST'])
-    @validate_schema(schema=increment_schema)
-    def validate():
-        val_json = request.get_json()
-        id = val_json['id']
-        option = val_json['option']
-        repository.increment_votes(id)
-        return ''
 
-    return app
+@app.route("/poll/<id>", methods=['GET'])
+def get(id):
+    poll = repository.find_poll(id)
+    poll['id'] = str(poll['_id'])
+    del poll['_id']
+    return poll
+
+
+@app.route("/poll/inc", methods=['PATCH'])
+@validate_schema(schema=increment_schema)
+def increment():
+    id = request.get_json()['id']
+    repository.increment_votes(id)
+    return ''
+
+# TODO: implement
+
+
+@app.route("/poll/val", methods=['POST'])
+@validate_schema(schema=increment_schema)
+def validate():
+    val_json = request.get_json()
+    id = val_json['id']
+    option = val_json['option']
+    repository.increment_votes(id)
+    return ''
