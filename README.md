@@ -1,24 +1,49 @@
 # azure-solution-geo-failover
 
-A demo application to practice failover to different Geo-locations.
+A demo application to practice failover across geo-locations.
 
-```hcl
+## Deployment
+
+Login to Azure:
+
+```sh
 az login
+```
+Create the infrastructure:
+
+```sh
+cd ./infrastructure
 
 terraform init
 terraform plan
 terraform apply -auto-approve
 ```
 
-```sh
-sudo az aks install-cli
-```
-```sh
-az aks get-credentials -g $group -n $aks
-kubectl get nodes
+Connect to the Kubernetes cluster:
 
-kubectl apply -f k8s.yaml
-kubectl get services --watch
+```sh
+cd ./microservices
+
+group='rg-openvote555-westus'
+aks='aks-openvote555-westus'
+
+az aks get-credentials -g $group -n $aks
+
+kubectl get nodes
+```
+
+Setup the credentials resources:
+
+```sh
+cp __config__/empty-secrets.env secrets.env
+
+kubectl create secret generic solution-secrets --from-env-file=secrets.env
+```
+
+Deploy the applications and services:
+
+```
+kubectl apply -f kubernetes.yaml
 ```
 
 ## Local Development
