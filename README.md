@@ -48,6 +48,13 @@ pipenv install --dev
 python3 -m flask run
 ```
 
+### Frontend
+
+```sh
+yarn install
+yarn dev -o
+```
+
 ### Terraform
 
 ```sh

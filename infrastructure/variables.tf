@@ -12,7 +12,7 @@ variable "application_name" {
 variable "main_location" {
   type        = string
   description = "The Location of the main site."
-  default     = "brazilsouth"
+  default     = "westus"
 }
 
 variable "failover_location" {

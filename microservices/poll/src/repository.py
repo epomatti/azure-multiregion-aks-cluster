@@ -6,6 +6,9 @@ def create_poll(poll):
     poll['votes'] = {'count': 0}
     return _get_collection().insert_one(poll)
 
+def get_all_polls():
+    return _get_collection().find()
+
 
 def find_poll(id):
     return _get_collection().find_one({'_id': ObjectId(id)})
