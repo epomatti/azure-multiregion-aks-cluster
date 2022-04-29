@@ -51,7 +51,7 @@ spec:
             - name: MONGODB_DATABASE
               value: vote
             - name: POLL_API
-              value: http://poll_service:30000
+              value: http://poll-service:30000
 ---
 apiVersion: v1
 kind: Service
