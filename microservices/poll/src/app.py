@@ -12,6 +12,10 @@ pool_schema = {
     'options': {'type': 'list', 'schema': {'type': 'string', 'required': True}, 'minlength': 2, 'maxlength': 5, 'required': True},
 }
 
+increment_schema = {
+    'id': {'type': 'string', 'required': True}
+}
+
 
 def create_app():
     app = Flask(__name__)
@@ -29,7 +33,15 @@ def create_app():
     @app.route("/poll/<id>", methods=['GET'])
     def get(id):
         poll = repository.find_poll(id)
-        poll['_id'] = str(poll['_id'])
+        poll['id'] = str(poll['_id'])
+        del poll['_id']
         return poll
+
+    @app.route("/poll/inc", methods=['PATCH'])
+    @validate_schema(schema=increment_schema)
+    def increment():
+        id = request.get_json()['id']
+        repository.increment_votes(id)
+        return "", 200
 
     return app
