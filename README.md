@@ -83,14 +83,9 @@ yarn dev -o
 ### Terraform
 
 ```sh
-# 
 terraform init
 terraform plan
 terraform apply -auto-approve
-
-# 
-terraform fmt -check
-terraform validate
 ```
 
 ## Docker Development
