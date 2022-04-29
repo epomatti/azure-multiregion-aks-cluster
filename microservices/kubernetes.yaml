@@ -21,7 +21,10 @@ spec:
             - containerPort: 8080
           env:
             - name: MONGODB_CONNECTION_STRING
-              value: mongodb://cosmos-k8spomatti:QsnLRa893MDHJvWAoiZKHA7IiSMCqWKrrmypVLRMUUHhLrQgafJY4GKqAZQG90lFpvZ4IbNcAWe9NcYzlyNa3g==@cosmos-k8spomatti.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@cosmos-k8spomatti@
+              valueFrom:
+                secretKeyRef:
+                  name: solution-secrets
+                  key: MONGODB_CONNECTION_STRING
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,10 +47,13 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: MONGODB_CONNECTION_STRING
-              value: mongodb://cosmos-k8spomatti:QsnLRa893MDHJvWAoiZKHA7IiSMCqWKrrmypVLRMUUHhLrQgafJY4GKqAZQG90lFpvZ4IbNcAWe9NcYzlyNa3g==@cosmos-k8spomatti.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@cosmos-k8spomatti@
             - name: POLL_API
               value: http://poll-service:30000
+            - name: MONGODB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: solution-secrets
+                  key: MONGODB_CONNECTION_STRING
 ---
 apiVersion: v1
 kind: Service

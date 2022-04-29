@@ -74,8 +74,12 @@ With compose:
 ```sh
 docker-compose build
 docker-compose up
+```
 
-docker-compose down
+## Minikube
+
+```
+kubectl create secret generic solution-secrets --from-env-file=secrets.env
 ```
 
 ## Sources
