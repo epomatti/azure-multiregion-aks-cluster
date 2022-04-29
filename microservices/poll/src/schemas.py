@@ -7,3 +7,8 @@ pool_schema = {
 increment_schema = {
     'id': {'type': 'string', 'required': True}
 }
+
+validate_schema = {
+    'id': {'type': 'string', 'required': True},
+    'option': {'type': 'string', 'required': True}
+}

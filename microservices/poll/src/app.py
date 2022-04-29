@@ -32,4 +32,14 @@ def create_app():
         repository.increment_votes(id)
         return ''
 
+    # TODO: implement
+    @app.route("/poll/val", methods=['POST'])
+    @validate_schema(schema=increment_schema)
+    def validate():
+        val_json = request.get_json()
+        id = val_json['id']
+        option = val_json['option']
+        repository.increment_votes(id)
+        return ''
+
     return app

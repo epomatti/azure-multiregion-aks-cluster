@@ -45,13 +45,7 @@ export SETUPTOOLS_USE_DISTUTILS=stdlib
 pipenv install --dev
 
 # start
-export FLASK_ENV=development
-export FLASK_APP=src/app.py
-python3 -m flask run --host=0.0.0.0
-
-
-# clean up
-pipenv -rm
+python3 -m flask run
 ```
 
 ### Terraform

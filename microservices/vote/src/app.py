@@ -1,21 +1,20 @@
-from flask import Flask
+from flask import Flask, request
 
-from .mongo import get_client
+from src import repository
+from src.validators import validate_schema
+from src.schemas import vote_schema
+
+app = Flask(__name__)
 
 
-def create_app():
-    app = Flask(__name__)
+@app.route("/vote", methods=['HEAD'])
+def head():
+    return ""
 
-    @app.route("/vote", methods=['HEAD'])
-    def head():
-        return ""
 
-    @app.route("/vote/<poll>", methods=['POST'])
-    def post(poll: int):
-        collection = get_client().get_database('vote').get_collection('votes')
-        result = collection.insert_one({"poll": 1})
-        return {
-            "response": str(result.inserted_id)
-        }
-
-    return app
+@validate_schema(schema=vote_schema)
+@app.route("/vote", methods=['POST'])
+def post():
+    vote_json = request.get_json()
+    id = vote_json['id']
+    repository.vote(vote_json)

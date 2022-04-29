@@ -2,6 +2,7 @@ import os
 import pymongo
 
 
-def get_client():
-    uri = os.environ['COSMOSDB_CONNECTION_STRING']
-    return pymongo.MongoClient(uri)
+def get_collection(collection: str):
+    uri = os.environ['MONGODB_CONNECTION_STRING']
+    database = os.environ['MONGODB_DATABASE']
+    return pymongo.MongoClient(uri).get_database(database).get_collection(collection)
