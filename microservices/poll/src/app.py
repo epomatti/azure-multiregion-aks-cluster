@@ -30,6 +30,6 @@ def create_app():
     def increment():
         id = request.get_json()['id']
         repository.increment_votes(id)
-        return "", 200
+        return ''
 
     return app
