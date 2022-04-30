@@ -121,6 +121,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     subnet_cidr  = "10.225.0.0/16"
   }
 
+  # microsoft_defender {
+  #   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+  # }
+
   oms_agent {
     log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
   }
@@ -134,6 +138,46 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
 }
+
+
+resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
+  name                       = "Application Gateway Logs"
+  target_resource_id         = azurerm_kubernetes_cluster.main.ingress_application_gateway[0].effective_gateway_id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  log {
+    category = "ApplicationGatewayAccessLog"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayPerformanceLog"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayFirewallLog"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+    }
+  }
+
+}
+
+
+
+
+### Outputs
 
 output "client_certificate" {
   value = azurerm_kubernetes_cluster.main.kube_config.0.client_certificate
@@ -152,6 +196,7 @@ output "kube_fqdn" {
 
   sensitive = false
 }
+
 
 
 ### Global Resources

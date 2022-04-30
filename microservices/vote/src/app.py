@@ -16,6 +16,10 @@ BASE_PATH = "/api/votes"
 def head():
     return ""
 
+@app.route(BASE_PATH, methods=['GET'])
+def get():
+    return ""
+
 
 @validate_schema(schema=vote_schema)
 @app.route(BASE_PATH, methods=['POST'])
