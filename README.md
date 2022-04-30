@@ -22,12 +22,7 @@ terraform apply -auto-approve
 Connect to the Kubernetes cluster:
 
 ```sh
-cd ./microservices
-
-group='rg-openvote555-westus'
-aks='aks-openvote555-westus'
-
-az aks get-credentials -g $group -n $aks
+az aks get-credentials -g 'rg-openvote555-westus' -n 'aks-openvote555-westus'
 
 kubectl get nodes
 ```
@@ -116,5 +111,10 @@ https://pipenv-fork.readthedocs.io/en/latest/basics.html
 https://sourcery.ai/blog/python-docker/
 https://stackoverflow.com/questions/24238743/flask-decorator-to-verify-json-and-json-schema
 https://docs.microsoft.com/en-us/azure/aks/concepts-network
+https://docs.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-new
 https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-overview
+https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/secure-baseline-aks
+https://azure.github.io/application-gateway-kubernetes-ingress/how-tos/networking/
+https://github.com/Azure/AKS/releases/tag/2022-02-24
+https://docs.microsoft.com/en-us/azure/aks/configure-kubenet
 ```
