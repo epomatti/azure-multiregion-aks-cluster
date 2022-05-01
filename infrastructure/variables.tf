@@ -17,11 +17,11 @@ variable "main_location" {
   default     = "westus"
 }
 
-# variable "failover_location" {
-#   type        = string
-#   description = "The Location of the failover site."
-#   default     = "canadaeast"
-# }
+variable "failover_location" {
+  type        = string
+  description = "The Location of the failover site."
+  default     = "canadaeast"
+}
 
 ### Cosmos
 
@@ -32,8 +32,8 @@ variable "cosmos_enable_free_tier" {
 }
 
 variable "cosmos_total_throughput_limit" {
-  type        = number
-  default     = 1000
+  type    = number
+  default = 1000
 }
 
 ### AKS
@@ -42,4 +42,10 @@ variable "aks_vm_size" {
   description = "Kubernetes VM size"
   type        = string
   default     = "Standard_B2s"
+}
+
+variable "aks_ingress_subnet_cidr" {
+  description = "Application Gateway Ingress IP Range"
+  type        = string
+  default     = "10.225.0.0/16"
 }

@@ -1,5 +1,5 @@
 resource "azurerm_kubernetes_cluster" "default" {
-  name                = "aks-${local.application_name}-${location}"
+  name                = "aks-${var.application_name}-${var.location}"
   resource_group_name = var.resource_group_name
   location            = var.location
   dns_prefix          = "aks-${var.application_name}"
@@ -12,7 +12,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   }
 
   ingress_application_gateway {
-    gateway_name = "agw-${local.application_name}"
+    gateway_name = "agw-${var.application_name}"
     subnet_cidr  = var.ingress_subnet_cidr
   }
 

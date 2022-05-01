@@ -22,8 +22,8 @@ provider "azurerm" {
 }
 
 locals {
-  main_suffix     = "${var.application_name}-${var.main_location}"
-  failover_suffix = "${var.application_name}-${var.failover_location}"
+  main_handle     = "${var.application_name}-${var.main_location}"
+  failover_handle = "${var.application_name}-${var.failover_location}"
 }
 
 ### Main Location
@@ -35,10 +35,10 @@ module "rg_main" {
 }
 
 module "cosmos_main" {
-  source                 = "./modules/cosmos"
-  application_name       = var.application_name
-  resource_group_name    = module.rg_main.name
-  main_location          = var.main_location
+  source              = "./modules/cosmos"
+  application_name    = var.application_name
+  resource_group_name = module.rg_main.name
+  main_location       = var.main_location
   # failover_location      = var.failover_location
   enable_free_tier       = var.cosmos_enable_free_tier
   total_throughput_limit = var.cosmos_total_throughput_limit
@@ -49,6 +49,16 @@ module "log_main" {
   application_name    = var.application_name
   resource_group_name = module.rg_main.name
   location            = var.main_location
+}
+
+module "aks_main" {
+  source                     = "./modules/aks"
+  application_name           = var.application_name
+  resource_group_name        = module.rg_main.name
+  location                   = var.main_location
+  vm_size                    = var.aks_vm_size
+  ingress_subnet_cidr        = var.aks_ingress_subnet_cidr
+  log_analytics_workspace_id = module.log_main.id
 }
 
 
