@@ -12,39 +12,17 @@ variable "application_name" {
 variable "main_location" {
   type        = string
   description = "The Location of the main site."
-  default     = "westus"
+  default     = "eastus2"
 }
 
 variable "failover_location" {
   type        = string
   description = "The Location of the failover site."
-  default     = "eastus2"
+  default     = "westus"
 }
 
 variable "aks_vm_size" {
   description = "Kubernetes VM size"
   type        = string
   default     = "Standard_B2s"
-}
-
-
-
-
-
-variable "appservice_docker_image" {
-  description = "Docker image name"
-  type        = string
-  default     = "epomatti/big-azure-terraform-showcase"
-}
-
-variable "appservice_docker_image_tag" {
-  description = "Docker image tag"
-  type        = string
-  default     = "latest"
-}
-
-variable "appservice_docker_registry_server_url" {
-  description = "The URL of the docker registry"
-  type        = string
-  default     = "https://index.docker.io"
 }
