@@ -1,3 +1,5 @@
+### General
+
 variable "application_name" {
   type        = string
   description = "The application name is used for composition of all the resouces in the solution."
@@ -12,14 +14,29 @@ variable "application_name" {
 variable "main_location" {
   type        = string
   description = "The Location of the main site."
-  default     = "eastus2"
-}
-
-variable "failover_location" {
-  type        = string
-  description = "The Location of the failover site."
   default     = "westus"
 }
+
+# variable "failover_location" {
+#   type        = string
+#   description = "The Location of the failover site."
+#   default     = "canadaeast"
+# }
+
+### Cosmos
+
+variable "cosmos_enable_free_tier" {
+  type        = bool
+  description = "Enable Cosmos Free tier"
+  default     = true
+}
+
+variable "cosmos_total_throughput_limit" {
+  type        = number
+  default     = 1000
+}
+
+### AKS
 
 variable "aks_vm_size" {
   description = "Kubernetes VM size"

@@ -10,11 +10,16 @@ variable "main_location" {
   type = string
 }
 
-variable "failover_location" {
-  type = string
-}
+# variable "failover_location" {
+#   type = string
+# }
 
 variable "enable_free_tier" {
-  type = string
+  type    = bool
+  default = true
 }
 
+variable "total_throughput_limit" {
+  type    = number
+  default = 1000
+}

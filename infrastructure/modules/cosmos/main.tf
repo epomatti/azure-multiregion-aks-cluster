@@ -1,6 +1,6 @@
 resource "azurerm_cosmosdb_account" "default" {
   name                 = "cosmos-${var.application_name}"
-  resource_group_name  = "rg-${var.application_name}-${var.main_location}"
+  resource_group_name  = var.resource_group_name
   location             = var.main_location
   offer_type           = "Standard"
   kind                 = "MongoDB"
@@ -16,7 +16,7 @@ resource "azurerm_cosmosdb_account" "default" {
   }
 
   capacity {
-    total_throughput_limit = 1000
+    total_throughput_limit = var.total_throughput_limit
   }
 
   geo_location {
@@ -24,23 +24,23 @@ resource "azurerm_cosmosdb_account" "default" {
     failover_priority = 0
   }
 
-  geo_location {
-    location          = var.failover_location
-    failover_priority = 1
-  }
+  # geo_location {
+  #   location          = var.failover_location
+  #   failover_priority = 1
+  # }
 
 }
 
 resource "azurerm_cosmosdb_mongo_database" "poll" {
   name                = "poll"
   resource_group_name = var.resource_group_name
-  account_name        = var.main_location
+  account_name        = azurerm_cosmosdb_account.default.name
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "polls" {
   name                = "polls"
   resource_group_name = var.resource_group_name
-  account_name        = var.main_location
+  account_name        = azurerm_cosmosdb_account.default.name
   database_name       = azurerm_cosmosdb_mongo_database.poll.name
 
   index {
@@ -52,13 +52,13 @@ resource "azurerm_cosmosdb_mongo_collection" "polls" {
 resource "azurerm_cosmosdb_mongo_database" "vote" {
   name                = "vote"
   resource_group_name = var.resource_group_name
-  account_name        = var.main_location
+  account_name        = azurerm_cosmosdb_account.default.name
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "votes" {
   name                = "votes"
   resource_group_name = var.resource_group_name
-  account_name        = var.main_location
+  account_name        = azurerm_cosmosdb_account.default.name
   database_name       = azurerm_cosmosdb_mongo_database.vote.name
 
   index {

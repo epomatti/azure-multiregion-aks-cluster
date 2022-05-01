@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "local" {
-    workspace_dir = "./workspace"
+    path = "./.workspace/terraform.tfstate"
   }
 }
 
@@ -21,31 +21,34 @@ provider "azurerm" {
   }
 }
 
-# locals {
-#   main_suffix     = "${var.application_name}-${var.main_location}"
-#   failover_suffix = "${var.application_name}-${var.failover_location}"
-# }
+locals {
+  main_suffix     = "${var.application_name}-${var.main_location}"
+  failover_suffix = "${var.application_name}-${var.failover_location}"
+}
 
 ### Main Location
 
-module "resource_group" "main" {
+module "rg_main" {
   source           = "./modules/group"
   application_name = var.application_name
   location         = var.main_location
 }
 
-module "cosmos" "main" {
-  source            = "./modules/cosmos"
-  application_name  = var.application_name
-  main_location     = var.main_location
-  failover_location = var.failover_location
-  enable_free_tier  = var.cosmos_enable_free_tier
+module "cosmos_main" {
+  source                 = "./modules/cosmos"
+  application_name       = var.application_name
+  resource_group_name    = module.rg_main.name
+  main_location          = var.main_location
+  # failover_location      = var.failover_location
+  enable_free_tier       = var.cosmos_enable_free_tier
+  total_throughput_limit = var.cosmos_total_throughput_limit
 }
 
-module "log_analytics" "main" {
-  source           = "./modules/log"
-  application_name = var.application_name
-  location         = var.main_location
+module "log_main" {
+  source              = "./modules/log"
+  application_name    = var.application_name
+  resource_group_name = module.rg_main.name
+  location            = var.main_location
 }
 
 
