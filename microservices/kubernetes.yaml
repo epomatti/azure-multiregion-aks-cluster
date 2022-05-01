@@ -26,11 +26,16 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           env:
-            - name: MONGODB_CONNECTION_STRING
+            - name: KEYVAULT_URL
               valueFrom:
                 secretKeyRef:
                   name: solution-secrets
-                  key: MONGODB_CONNECTION_STRING
+                  key: KEYVAULT_URL
+            # - name: MONGODB_CONNECTION_STRING
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: solution-secrets
+            #       key: MONGODB_CONNECTION_STRING
 
 ---
 apiVersion: apps/v1
@@ -62,11 +67,16 @@ spec:
           env:
             - name: POLL_API
               value: http://poll-service:30000
-            - name: MONGODB_CONNECTION_STRING
+            - name: KEYVAULT_URL
               valueFrom:
                 secretKeyRef:
                   name: solution-secrets
-                  key: MONGODB_CONNECTION_STRING
+                  key: KEYVAULT_URL
+            # - name: MONGODB_CONNECTION_STRING
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: solution-secrets
+            #       key: MONGODB_CONNECTION_STRING
 ---
 apiVersion: v1
 kind: Service
