@@ -11,9 +11,9 @@ app = Flask(__name__)
 BASE_PATH = '/api/polls'
 
 
-@app.route(BASE_PATH, methods=['HEAD'])
-def head():
-    return ""
+@app.route("/", methods=['GET'])
+def readyness():
+    return "Ready"
 
 
 @app.route(BASE_PATH, methods=['POST'])

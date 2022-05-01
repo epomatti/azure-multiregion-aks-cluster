@@ -118,4 +118,5 @@ https://azure.github.io/application-gateway-kubernetes-ingress/how-tos/networkin
 https://github.com/Azure/AKS/releases/tag/2022-02-24
 https://docs.microsoft.com/en-us/azure/aks/configure-kubenet
 https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-log-query
+https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-add-health-probes
 ```

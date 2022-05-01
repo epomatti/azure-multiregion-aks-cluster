@@ -12,13 +12,9 @@ app = Flask(__name__)
 BASE_PATH = "/api/votes"
 
 
-@app.route(BASE_PATH, methods=['HEAD'])
-def head():
-    return ""
-
-@app.route(BASE_PATH, methods=['GET'])
-def get():
-    return ""
+@app.route("/", methods=['GET'])
+def readiness():
+    return "Ready", 200
 
 
 @validate_schema(schema=vote_schema)

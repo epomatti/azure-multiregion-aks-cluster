@@ -19,12 +19,19 @@ spec:
           image: epomatti/azure-failover-poll
           ports:
             - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
           env:
             - name: MONGODB_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
                   name: solution-secrets
                   key: MONGODB_CONNECTION_STRING
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -46,6 +53,12 @@ spec:
           image: epomatti/azure-failover-vote
           ports:
             - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
           env:
             - name: POLL_API
               value: http://poll-service:30000
@@ -60,7 +73,6 @@ kind: Service
 metadata:
   name: poll-service
 spec:
-  # type: LoadBalancer
   selector:
     app: poll
   ports:
@@ -73,7 +85,6 @@ kind: Service
 metadata:
   name: vote-service
 spec:
-  # type: LoadBalancer
   selector:
     app: vote
   ports:
