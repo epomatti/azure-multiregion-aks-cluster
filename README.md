@@ -101,6 +101,8 @@ docker-compose up
 ## Minikube
 
 ```
+minikube start
+minikube addons enable ingress
 kubectl create secret generic solution-secrets --from-env-file=secrets.env
 ```
 
