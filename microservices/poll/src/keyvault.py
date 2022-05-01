@@ -1,26 +1,18 @@
 from azure.identity import DefaultAzureCredential
-from azure.keyvault.keys import KeyClient
-from azure.keyvault.keys.crypto import CryptographyClient, EncryptionAlgorithm
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 import os
 
-ENCRYPTION_ALGORITHM = EncryptionAlgorithm.rsa_oaep
 
-
-def encrypt(text: str) -> str:
-    crypto_client = _get_cripto_client()
-    plaintext = text.encode()
-    result = crypto_client.encrypt(ENCRYPTION_ALGORITHM, plaintext)
-    return result.ciphertext
-
-
-def decrypt(ciphertext: str) -> str:
-    crypto_client = _get_cripto_client()
-    return crypto_client.decrypt(ENCRYPTION_ALGORITHM, ciphertext).plaintext.decode()
-
-
-def _get_cripto_client():
-    uri = os.environ['KEYVAULT_URI']
+def _load_cosmos_connection_string():
+    url = os.environ['KEYVAULT_URL']
     credential = DefaultAzureCredential()
-    key_client = KeyClient(vault_url=uri, credential=credential)
-    key = key_client.get_key("generated-key")
-    return CryptographyClient(key, credential=credential)
+    secret_client = SecretClient(vault_url=url, credential=credential)
+    return secret_client.get_secret("cosmos-connection-string").value
+
+
+_secret = _load_cosmos_connection_string()
+
+
+def get_cosmos_connection_string():
+    return _secret

@@ -8,6 +8,8 @@ pymongo = "*"
 flask = "*"
 python-dotenv = "*"
 cerberus = "*"
+azure-keyvault-secrets = "*"
+azure-identity = "*"
 
 [dev-packages]
 autopep8 = "*"
