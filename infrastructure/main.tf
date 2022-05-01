@@ -61,6 +61,13 @@ module "aks_main" {
   log_analytics_workspace_id = module.log_main.id
 }
 
+module "frontdoor" {
+  source               = "./modules/frontdoor"
+  application_name     = var.application_name
+  resource_group_name  = module.rg_main.name
+  main_ingress_address = module.aks_main.agw_public_ip_address
+}
+
 
 # resource "azurerm_resource_group" "main" {
 #   name     = "rg-${local.main_suffix}"

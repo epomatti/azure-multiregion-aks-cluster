@@ -6,6 +6,10 @@ variable "resource_group_name" {
   type = string
 }
 
-variable "ingress_address" {
+variable "main_ingress_address" {
   type = string
 }
+
+# variable "failover_ingress_address" {
+#   type = string
+# }
