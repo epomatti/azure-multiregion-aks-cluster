@@ -10,9 +10,9 @@ variable "main_location" {
   type = string
 }
 
-# variable "failover_location" {
-#   type = string
-# }
+variable "failover_location" {
+  type = string
+}
 
 variable "enable_free_tier" {
   type    = bool
