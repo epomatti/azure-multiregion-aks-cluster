@@ -5,18 +5,26 @@ resource "azurerm_cosmosdb_account" "default" {
   offer_type           = "Standard"
   kind                 = "MongoDB"
   mongo_server_version = "4.0"
-  enable_free_tier     = var.enable_free_tier
+  # enable_free_tier     = var.enable_free_tier
 
   capabilities {
     name = "EnableMongo"
+  }
+
+  capabilities {
+    name = "EnableServerless"
   }
 
   consistency_policy {
     consistency_level = "Session"
   }
 
-  capacity {
-    total_throughput_limit = var.total_throughput_limit
+  # capacity {
+  #   total_throughput_limit = var.total_throughput_limit
+  # }
+
+  backup {
+    type = "Continuous"
   }
 
   geo_location {

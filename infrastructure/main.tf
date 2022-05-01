@@ -35,10 +35,10 @@ module "rg_main" {
 }
 
 module "cosmos_main" {
-  source              = "./modules/cosmos"
-  application_name    = var.application_name
-  resource_group_name = module.rg_main.name
-  main_location       = var.main_location
+  source                 = "./modules/cosmos"
+  application_name       = var.application_name
+  resource_group_name    = module.rg_main.name
+  main_location          = var.main_location
   failover_location      = var.failover_location
   enable_free_tier       = var.cosmos_enable_free_tier
   total_throughput_limit = var.cosmos_total_throughput_limit
@@ -61,11 +61,26 @@ module "aks_main" {
   log_analytics_workspace_id = module.log_main.id
 }
 
-module "frontdoor" {
-  source                   = "./modules/frontdoor"
+module "kv_main" {
+  source                   = "./modules/keyvault"
   application_name         = var.application_name
   resource_group_name      = module.rg_main.name
-  main_ingress_address     = module.aks_main.agw_public_ip_address
+  location                 = var.main_location
+  aks_principal_id         = module.aks_main.principal_id
+  cosmos_connection_string = module.cosmos_main.primary_connection_tring
+}
+
+# resource "azurerm_role_assignment" "aks_cosmos_main" {
+#   scope                = module.cosmos_main.id
+#   role_definition_name = "DocumentDB Account Contributor"
+#   principal_id         = module.aks_main.principal_id
+# }
+
+module "frontdoor" {
+  source               = "./modules/frontdoor"
+  application_name     = var.application_name
+  resource_group_name  = module.rg_main.name
+  main_ingress_address = module.aks_main.agw_public_ip_address
   # failover_ingress_address = module.aks_failover.agw_public_ip_address
 }
 
@@ -94,3 +109,10 @@ module "frontdoor" {
 #   log_analytics_workspace_id = module.log_failover.id
 # }
 
+
+
+### Outputs
+
+output "keyvault_main_uri" {
+  value = module.kv_main.uri
+}
