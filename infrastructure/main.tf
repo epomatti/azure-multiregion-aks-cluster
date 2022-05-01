@@ -172,9 +172,40 @@ resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
     }
   }
 
+  metric {
+    category = "AllMetrics"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+    }
+  }
+
+}
+
+data "azurerm_public_ip" "main" {
+  name                = "agw-${local.main_suffix}-appgwpip"
+  resource_group_name = azurerm_kubernetes_cluster.main.node_resource_group
+
+  # depends_on = [
+  #   azurerm_kubernetes_cluster.main
+  # ]
+}
+
+output "gateway_public_ip" {
+  value     = data.azurerm_public_ip.main.ip_address
+  sensitive = false
 }
 
 
+# data "azurerm_application_gateway" "main" {
+#   name                = "agw-${local.main_suffix}"
+#   resource_group_name = azurerm_kubernetes_cluster.main.node_resource_group
+
+#   depends_on = [
+#     azurerm_kubernetes_cluster.main
+#   ]
+# }
 
 
 ### Outputs
@@ -198,97 +229,57 @@ output "kube_fqdn" {
 }
 
 
-
 ### Global Resources
 
-# resource "azurerm_resource_group" "global" {
-#   name     = "rg-${var.application_name}-global"
-#   location = var.main_location
-# }
+resource "azurerm_resource_group" "global" {
+  name     = "rg-${var.application_name}-global"
+  location = var.main_location
+}
 
-# resource "azurerm_frontdoor" "global" {
-#   name                = "ft-${var.application_name}"
-#   resource_group_name = azurerm_resource_group.global.name
+resource "azurerm_frontdoor" "global" {
+  name                = "ft-${var.application_name}"
+  resource_group_name = azurerm_resource_group.global.name
 
-#   routing_rule {
-#     name               = "nginxRoutingRule"
-#     accepted_protocols = ["Http", "Https"]
-#     patterns_to_match  = ["/*"]
-#     frontend_endpoints = ["nginxFrontend"]
-#     forwarding_configuration {
-#       forwarding_protocol = "MatchRequest"
-#       backend_pool_name   = "nginxBackendPool"
-#     }
-#   }
+  routing_rule {
+    name               = "IngressRoutingRule"
+    accepted_protocols = ["Http", "Https"]
+    patterns_to_match  = ["/*"]
+    frontend_endpoints = ["IngressFrontend"]
+    forwarding_configuration {
+      forwarding_protocol = "MatchRequest"
+      backend_pool_name   = "IngressBackendPool"
+    }
+  }
 
-#   backend_pool_load_balancing {
-#     name = "nginxLoadBalancing"
-#   }
+  backend_pool_load_balancing {
+    name = "IngressLoadBalancing"
+  }
 
-#   backend_pool_health_probe {
-#     name = "nginxHealthProbe"
-#   }
+  backend_pool_health_probe {
+    name = "IngressHealthProbe"
+  }
 
-#   backend_pool {
-#     name = "nginxBackendPool"
-#     backend {
-#       host_header = "20.201.0.181"
-#       address     = "20.201.0.181"
-#       http_port   = 80
-#       https_port  = 443
-#     }
+  backend_pool {
+    name = "IngressBackendPool"
+    backend {
+      host_header = data.azurerm_public_ip.main.ip_address
+      address     = data.azurerm_public_ip.main.ip_address
+      http_port   = 80
+      https_port  = 443
+    }
 
-#     load_balancing_name = "nginxLoadBalancing"
-#     health_probe_name   = "nginxHealthProbe"
-#   }
+    load_balancing_name = "IngressLoadBalancing"
+    health_probe_name   = "IngressHealthProbe"
+  }
 
-#   frontend_endpoint {
-#     name      = "nginxFrontend"
-#     host_name = "ft-${var.application_name}.azurefd.net"
-#   }
-# }
+  frontend_endpoint {
+    name      = "IngressFrontend"
+    host_name = "ft-${var.application_name}.azurefd.net"
+  }
+  
+}
 
-# resource "azurerm_log_analytics_workspace" "default" {
-#   name                = "log${random_integer.ri.result}"
-#   location            = azurerm_resource_group.default.location
-#   resource_group_name = azurerm_resource_group.default.name
-#   sku                 = "PerGB2018"
-#   retention_in_days   = 30
-# }
 
-# resource "azurerm_monitor_diagnostic_setting" "default" {
-#   name                       = "Python API Application Logs"
-#   target_resource_id         = azurerm_linux_web_app.default.id
-#   log_analytics_workspace_id = azurerm_log_analytics_workspace.default.id
-
-#   log {
-#     category = "AppServiceConsoleLogs"
-#     enabled  = true
-
-#     retention_policy {
-#       enabled = true
-#     }
-#   }
-
-#   log {
-#     category = "AppServiceAppLogs"
-#     enabled  = true
-
-#     retention_policy {
-#       enabled = true
-#     }
-#   }
-
-#   log {
-#     category = "AppServiceHTTPLogs"
-#     enabled  = true
-
-#     retention_policy {
-#       enabled = true
-#     }
-#   }
-
-# }
 
 
 # resource "azurerm_key_vault" "example" {

@@ -32,4 +32,4 @@ USER appuser
 
 # Install application into container
 COPY . .
-CMD [ "waitress-serve", "--call", "src.app:create_app"]
+CMD [ "waitress-serve", "--call", "src.app:create_app", "--expose-tracebacks"]
