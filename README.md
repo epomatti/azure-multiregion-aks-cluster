@@ -23,8 +23,6 @@ Connect to the Kubernetes cluster:
 
 ```sh
 az aks get-credentials -g 'rg-openvote555-westus' -n 'aks-openvote555-westus'
-
-kubectl get nodes
 ```
 
 Setup the credentials resources:

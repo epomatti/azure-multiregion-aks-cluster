@@ -62,10 +62,11 @@ module "aks_main" {
 }
 
 module "frontdoor" {
-  source               = "./modules/frontdoor"
-  application_name     = var.application_name
-  resource_group_name  = module.rg_main.name
-  main_ingress_address = module.aks_main.agw_public_ip_address
+  source                   = "./modules/frontdoor"
+  application_name         = var.application_name
+  resource_group_name      = module.rg_main.name
+  main_ingress_address     = module.aks_main.agw_public_ip_address
+  # failover_ingress_address = module.aks_failover.agw_public_ip_address
 }
 
 
