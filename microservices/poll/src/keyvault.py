@@ -5,7 +5,7 @@ from azure.keyvault.secrets import SecretClient
 
 
 def get_cosmos_connection_string():
-    return _get_secret("COSMOSDB_CONNECTION_STRING")
+    return _get_secret("cosmosdb-connection-string")
 
 
 def _get_secret(secret: str):

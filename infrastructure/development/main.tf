@@ -21,33 +21,38 @@ provider "azurerm" {
   }
 }
 
-### Main Location
-
-module "rg_main" {
-  source           = "../modules/group"
-  application_name = var.application_name
-  location         = var.main_location
+locals {
+  root_name = "${var.application_name}-${var.environment}-${var.instance}"
 }
 
-module "cosmos_main" {
-  source                 = "./modules/cosmos"
-  application_name       = var.application_name
-  resource_group_name    = module.rg_main.name
-  main_location          = var.main_location
-  failover_location      = var.failover_location
-  enable_free_tier       = var.cosmos_enable_free_tier
-  total_throughput_limit = var.cosmos_total_throughput_limit
+
+module "rg" {
+  source    = "../modules/group"
+  root_name = local.root_name
+  location  = var.location
 }
 
-module "kv_main" {
-  source                   = "./modules/keyvault"
-  application_name         = var.application_name
-  resource_group_name      = module.rg_main.name
-  location                 = var.main_location
-  aks_principal_id         = module.aks_main.principal_id
-  cosmos_connection_string = module.cosmos_main.primary_connection_tring
+module "cosmos" {
+  source              = "../modules/cosmos"
+  root_name           = local.root_name
+  resource_group_name = module.rg.name
+  main_location       = var.location
+  failover_location   = var.location
 }
 
-output "keyvault_main_uri" {
-  value = module.kv_main.uri
+data "azurerm_client_config" "current" {}
+
+module "kv" {
+  source                   = "../modules/keyvault"
+  root_name                = local.root_name
+  resource_group_name      = module.rg.name
+  location                 = var.location
+  aks_principal_id         = data.azurerm_client_config.current.client_id
+  cosmos_connection_string = module.cosmos.primary_connection_tring
+}
+
+output "keyvault_uri" {
+  description = "Add this to your development environment configuration."
+  value       = module.kv.uri
+  sensitive   = false
 }
