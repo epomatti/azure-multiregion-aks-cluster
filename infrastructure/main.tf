@@ -22,53 +22,53 @@ provider "azurerm" {
 }
 
 locals {
-  main_handle     = "${var.application_name}-${var.main_location}"
-  failover_handle = "${var.application_name}-${var.failover_location}"
+  main_root_name     = "${var.application_name}-${var.environment}-${var.main_location}"
+  failover_root_name = "${var.application_name}-${var.environment}-${var.failover_location}"
 }
 
 ### Main Location
 
 module "rg_main" {
-  source           = "./modules/group"
-  application_name = var.application_name
-  location         = var.main_location
+  source    = "./modules/group"
+  root_name = local.main_root_name
+  location  = var.main_location
 }
 
-module "cosmos_main" {
-  source                 = "./modules/cosmos"
-  application_name       = var.application_name
-  resource_group_name    = module.rg_main.name
-  main_location          = var.main_location
-  failover_location      = var.failover_location
-  enable_free_tier       = var.cosmos_enable_free_tier
-  total_throughput_limit = var.cosmos_total_throughput_limit
-}
+# module "cosmos_main" {
+#   source                 = "./modules/cosmos"
+#   application_name       = var.application_name
+#   resource_group_name    = module.rg_main.name
+#   main_location          = var.main_location
+#   failover_location      = var.failover_location
+#   enable_free_tier       = var.cosmos_enable_free_tier
+#   total_throughput_limit = var.cosmos_total_throughput_limit
+# }
 
-module "log_main" {
-  source              = "./modules/log"
-  application_name    = var.application_name
-  resource_group_name = module.rg_main.name
-  location            = var.main_location
-}
+# module "log_main" {
+#   source              = "./modules/log"
+#   application_name    = var.application_name
+#   resource_group_name = module.rg_main.name
+#   location            = var.main_location
+# }
 
-module "aks_main" {
-  source                     = "./modules/aks"
-  application_name           = var.application_name
-  resource_group_name        = module.rg_main.name
-  location                   = var.main_location
-  vm_size                    = var.aks_vm_size
-  ingress_subnet_cidr        = var.aks_ingress_subnet_cidr
-  log_analytics_workspace_id = module.log_main.id
-}
+# module "aks_main" {
+#   source                     = "./modules/aks"
+#   application_name           = var.application_name
+#   resource_group_name        = module.rg_main.name
+#   location                   = var.main_location
+#   vm_size                    = var.aks_vm_size
+#   ingress_subnet_cidr        = var.aks_ingress_subnet_cidr
+#   log_analytics_workspace_id = module.log_main.id
+# }
 
-module "kv_main" {
-  source                   = "./modules/keyvault"
-  application_name         = var.application_name
-  resource_group_name      = module.rg_main.name
-  location                 = var.main_location
-  aks_principal_id         = module.aks_main.principal_id
-  cosmos_connection_string = module.cosmos_main.primary_connection_tring
-}
+# module "kv_main" {
+#   source                   = "./modules/keyvault"
+#   application_name         = var.application_name
+#   resource_group_name      = module.rg_main.name
+#   location                 = var.main_location
+#   aks_principal_id         = module.aks_main.principal_id
+#   cosmos_connection_string = module.cosmos_main.primary_connection_tring
+# }
 
 # resource "azurerm_role_assignment" "aks_cosmos_main" {
 #   scope                = module.cosmos_main.id
@@ -76,13 +76,13 @@ module "kv_main" {
 #   principal_id         = module.aks_main.principal_id
 # }
 
-module "frontdoor" {
-  source               = "./modules/frontdoor"
-  application_name     = var.application_name
-  resource_group_name  = module.rg_main.name
-  main_ingress_address = module.aks_main.agw_public_ip_address
-  # failover_ingress_address = module.aks_failover.agw_public_ip_address
-}
+# module "frontdoor" {
+#   source               = "./modules/frontdoor"
+#   application_name     = var.application_name
+#   resource_group_name  = module.rg_main.name
+#   main_ingress_address = module.aks_main.agw_public_ip_address
+#   # failover_ingress_address = module.aks_failover.agw_public_ip_address
+# }
 
 ### Failover Location ###
 
@@ -113,6 +113,6 @@ module "frontdoor" {
 
 ### Outputs
 
-output "keyvault_main_uri" {
-  value = module.kv_main.uri
-}
+# output "keyvault_main_uri" {
+#   value = module.kv_main.uri
+# }

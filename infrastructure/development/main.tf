@@ -24,7 +24,7 @@ provider "azurerm" {
 ### Main Location
 
 module "rg_main" {
-  source           = "./modules/group"
+  source           = "../modules/group"
   application_name = var.application_name
   location         = var.main_location
 }

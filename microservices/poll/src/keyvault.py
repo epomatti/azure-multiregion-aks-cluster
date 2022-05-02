@@ -4,6 +4,10 @@ from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
 
+def get_cosmos_connection_string():
+    return _get_secret("COSMOSDB_CONNECTION_STRING")
+
+
 def _get_secret(secret: str):
     url = os.environ['KEYVAULT_URL']
     credential = DefaultAzureCredential()

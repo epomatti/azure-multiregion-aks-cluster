@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "default" {
-  name     = "rg-${var.application_name}-${var.location}"
+  name     = "rg-${var.root_name}"
   location = var.location
 }

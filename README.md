@@ -42,10 +42,7 @@ kubectl apply -f kubernetes.yaml
 ### Resources
 
 ```sh
-docker run -d --name mongodb -p 27017:27017 \
-  -e MONGO_INITDB_ROOT_USERNAME=app \
-  -e MONGO_INITDB_ROOT_PASSWORD=devpass \
-  mongo
+docker run -d --name mongodb -p 27017:27017 mongo
 ```
 
 ### Python Microservices
@@ -134,4 +131,5 @@ https://github.com/Azure/AKS/releases/tag/2022-02-24
 https://docs.microsoft.com/en-us/azure/aks/configure-kubenet
 https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-log-query
 https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-add-health-probes
+http://pylint-messages.wikidot.com/all-messages
 ```

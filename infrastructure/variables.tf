@@ -23,6 +23,11 @@ variable "failover_location" {
   default     = "canadaeast"
 }
 
+variable "environment" {
+  type        = string
+  default     = "prod"
+}
+
 ### Cosmos
 
 variable "cosmos_enable_free_tier" {
