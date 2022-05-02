@@ -1,7 +1,12 @@
 import os
-import pymongo
+from pymongo import MongoClient
+from . import keyvault
 
 
-def get_collection(db: str, collection: str):
-    uri = os.environ['MONGODB_CONNECTION_STRING']
-    return pymongo.MongoClient(uri).get_database(db).get_collection(collection)
+def get_collection(database: str, collection: str):
+    use_keyvault = bool(os.environ['USE_KEYVAULT'])
+    if use_keyvault:
+        connection_string = keyvault.get_cosmos_connection_string()
+    else:
+        connection_string = os.environ['COSMOSDB_CONNECTION_STRING']
+    return MongoClient(connection_string).get_database(database).get_collection(collection)
