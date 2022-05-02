@@ -41,7 +41,7 @@ resource "azurerm_key_vault_access_policy" "aks" {
 }
 
 resource "azurerm_key_vault_secret" "cosmos" {
-  name         = "cosmos-connection-string"
+  name         = "cosmosdb-connection-string"
   value        = var.cosmos_connection_string
   key_vault_id = azurerm_key_vault.default.id
 }
