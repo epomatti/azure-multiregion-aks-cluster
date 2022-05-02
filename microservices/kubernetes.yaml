@@ -31,12 +31,6 @@ spec:
                 secretKeyRef:
                   name: solution-secrets
                   key: KEYVAULT_URL
-            # - name: MONGODB_CONNECTION_STRING
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: solution-secrets
-            #       key: MONGODB_CONNECTION_STRING
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -72,11 +66,6 @@ spec:
                 secretKeyRef:
                   name: solution-secrets
                   key: KEYVAULT_URL
-            # - name: MONGODB_CONNECTION_STRING
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: solution-secrets
-            #       key: MONGODB_CONNECTION_STRING
 ---
 apiVersion: v1
 kind: Service
@@ -101,29 +90,3 @@ spec:
     - protocol: TCP
       port: 31000
       targetPort: 8080
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: vote-app
-  annotations:
-    kubernetes.io/ingress.class: azure/application-gateway
-    # ginx.ingress.kubernetes.io/rewrite-target: /$1
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /api/polls
-            backend:
-              service:
-                name: poll-service
-                port:
-                  number: 30000
-            pathType: Prefix
-          - path: /api/votes
-            backend:
-              service:
-                name: vote-service
-                port:
-                  number: 31000
-            pathType: Prefix

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vote-app
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/polls
+            backend:
+              service:
+                name: poll-service
+                port:
+                  number: 30000
+            pathType: Prefix
+          - path: /api/votes
+            backend:
+              service:
+                name: vote-service
+                port:
+                  number: 31000
+            pathType: Prefix
