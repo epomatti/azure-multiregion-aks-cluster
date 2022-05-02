@@ -70,21 +70,17 @@ yarn dev -o
 
 ## Local development with Cloud resources
 
+This will create the necessary resources to develop locally but with Azure resources instead of locals, which is useful to test before pushing for integration testing.
+
 ```sh
-group='rg-development'
-location='westus'
-cosmos='cosmos-openvote555-dev'
-
-az group create -n $group -l $location
-
-az cosmosdb create -n $cosmos -g $group --kind 'MongoDB' --server-version '4.0' --capabilities 'EnableServerless'
-
-az keyvault create -n 'kv-openvote555-dev' -g $group -l $location
-
-connection_string=$(az cosmosdb keys list --type connection-strings --query connectionStrings[0].connectionString -n $cosmos -g $group --output tsv)
-
-az keyvault secret set
+terraform -chdir='infrastructure/development' init
+terraform -chdir='infrastructure/development' apply -auto-approve
 ```
+
+Set the Key Vault URI to your `.env` file.
+
+Authentication works via local context, so you must be connected with `az login`. Microsoft SDKs will automatically detect the authenticated context when connecting to the Key Vault.
+
 
 ## Docker Development
 
