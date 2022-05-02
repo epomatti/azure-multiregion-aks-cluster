@@ -1,7 +1,7 @@
-from azure.identity import DefaultAzureCredential
+import os
+
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
-import os
 
 
 def _get_secret(secret: str):
