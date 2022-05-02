@@ -9,28 +9,26 @@ Login to Azure:
 ```sh
 az login
 ```
-Create the infrastructure:
+Deploy the infrastructure:
 
 ```sh
-cd ./infrastructure
+terraform -chdir='infrastructure' init
+terraform -chdir='infrastructure' apply -auto-approve
+```
 
-terraform init
-terraform plan
-terraform apply -auto-approve
+Create the secrets and configuration:
+
+```sh
+terraform -chdir='infrastructure/kubernetes' init
+terraform -chdir='infrastructure/kubernetes' apply -auto-approve
 ```
 
 Connect to the Kubernetes cluster:
 
 ```sh
-az aks get-credentials -g 'rg-openvote555-westus' -n 'aks-openvote555-westus'
-```
-
-Setup the credentials resources:
-
-```sh
-cp __config__/empty-secrets.env secrets.env
-
-kubectl create secret generic solution-secrets --from-env-file=secrets.env
+az aks get-credentials \
+  -g 'rg-openvote555-westus' \
+  -n 'aks-openvote555-westus'
 ```
 
 Deploy the applications and services:
@@ -73,21 +71,33 @@ yarn install
 yarn dev -o
 ```
 
-### Terraform
+## Local development with Cloud resources
 
 ```sh
-terraform init
-terraform plan
-terraform apply -auto-approve
+group='rg-development'
+location='westus'
+cosmos='cosmos-openvote555-dev'
+
+az group create -n $group -l $location
+
+az cosmosdb create -n $cosmos -g $group --kind 'MongoDB' --server-version '4.0' --capabilities 'EnableServerless'
+
+az keyvault create -n 'kv-openvote555-dev' -g $group -l $location
+
+connection_string=$(az cosmosdb keys list --type connection-strings --query connectionStrings[0].connectionString -n $cosmos -g $group --output tsv)
+
+az keyvault secret set
 ```
 
 ## Docker Development
 
+```
 docker build --tag poll .
 docker build --tag vote .
 
 docker run -p 4000:8080 --name poll-app poll
 docker run -p 5000:8080 --name vote-app vote
+```
 
 With compose:
 

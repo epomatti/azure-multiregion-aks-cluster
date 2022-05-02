@@ -6,6 +6,7 @@ def create_poll(poll):
     poll['votes'] = {'count': 0}
     return _get_collection().insert_one(poll)
 
+
 def get_all_polls():
     return _get_collection().find()
 
@@ -19,5 +20,9 @@ def increment_votes(id):
                                  {'$inc': {'votes.count': 1}})
 
 
+DATABASE = "poll"
+COLLECTION = "polls"
+
+
 def _get_collection():
-    return mongo.get_collection("poll", "polls")
+    return mongo.get_collection(DATABASE, COLLECTION)

@@ -4,5 +4,10 @@ from . import keyvault
 
 
 def get_collection(db: str, collection: str):
-    connection_string = keyvault.get_cosmos_connection_string()
+    use_keyvault = bool(os.environ['USE_KEYVAULT'])
+    connection_string = ""
+    if use_keyvault:
+        connection_string = keyvault.get_cosmos_uri()
+    else:
+        connection_string = os.environ['MONGODB_CONNECTION_STRING']
     return pymongo.MongoClient(connection_string).get_database(db).get_collection(collection)
