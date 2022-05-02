@@ -1,5 +1,5 @@
 resource "azurerm_frontdoor" "default" {
-  name                = "ft-${var.application_name}"
+  name                = "ft-${var.root_name}"
   resource_group_name = var.resource_group_name
 
   routing_rule {
@@ -36,7 +36,7 @@ resource "azurerm_frontdoor" "default" {
 
   frontend_endpoint {
     name      = "IngressFrontend"
-    host_name = "ft-${var.application_name}.azurefd.net"
+    host_name = "ft-${var.root_name}.azurefd.net"
   }
 
 }

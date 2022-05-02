@@ -1,9 +1,9 @@
 resource "azurerm_kubernetes_cluster" "default" {
-  name                = "aks-${var.application_name}-${var.location}"
+  name                = "aks-${var.root_name}"
   resource_group_name = var.resource_group_name
   location            = var.location
-  dns_prefix          = "aks-${var.application_name}"
-  node_resource_group = "rg-${var.application_name}-k8s-${var.location}"
+  dns_prefix          = "aks-${var.root_name}"
+  node_resource_group = "rg-k8s-${var.root_name}"
 
   default_node_pool {
     name       = "default"
@@ -12,7 +12,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   }
 
   ingress_application_gateway {
-    gateway_name = "agw-${var.application_name}"
+    gateway_name = "agw-${var.root_name}"
     subnet_cidr  = var.ingress_subnet_cidr
   }
 
@@ -79,7 +79,7 @@ resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
 }
 
 data "azurerm_public_ip" "default" {
-  name                = "agw-${var.application_name}-appgwpip"
+  name                = "agw-${var.root_name}-appgwpip"
   resource_group_name = azurerm_kubernetes_cluster.default.node_resource_group
 
   depends_on = [

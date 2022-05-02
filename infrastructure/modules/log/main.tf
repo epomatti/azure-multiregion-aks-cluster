@@ -1,5 +1,5 @@
 resource "azurerm_log_analytics_workspace" "default" {
-  name                = "log-${var.application_name}-${var.location}"
+  name                = "log-${var.root_name}"
   resource_group_name = var.resource_group_name
   location            = var.location
   sku                 = "PerGB2018"
