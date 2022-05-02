@@ -25,20 +25,8 @@ variable "failover_location" {
 
 variable "environment" {
   type        = string
+  description = "The type of Environment that it's being deployed."
   default     = "prod"
-}
-
-### Cosmos
-
-variable "cosmos_enable_free_tier" {
-  type        = bool
-  description = "Enable Cosmos Free tier"
-  default     = true
-}
-
-variable "cosmos_total_throughput_limit" {
-  type    = number
-  default = 1000
 }
 
 ### AKS

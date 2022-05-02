@@ -1,11 +1,10 @@
 resource "azurerm_cosmosdb_account" "default" {
-  name                 = "cosmos-${var.application_name}"
+  name                 = "cosmos-${var.root_name}"
   resource_group_name  = var.resource_group_name
   location             = var.main_location
   offer_type           = "Standard"
   kind                 = "MongoDB"
   mongo_server_version = "4.0"
-  # enable_free_tier     = var.enable_free_tier
 
   capabilities {
     name = "EnableMongo"
@@ -18,10 +17,6 @@ resource "azurerm_cosmosdb_account" "default" {
   consistency_policy {
     consistency_level = "Session"
   }
-
-  # capacity {
-  #   total_throughput_limit = var.total_throughput_limit
-  # }
 
   backup {
     type = "Continuous"

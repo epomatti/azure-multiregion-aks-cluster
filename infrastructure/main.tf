@@ -34,15 +34,13 @@ module "rg_main" {
   location  = var.main_location
 }
 
-# module "cosmos_main" {
-#   source                 = "./modules/cosmos"
-#   application_name       = var.application_name
-#   resource_group_name    = module.rg_main.name
-#   main_location          = var.main_location
-#   failover_location      = var.failover_location
-#   enable_free_tier       = var.cosmos_enable_free_tier
-#   total_throughput_limit = var.cosmos_total_throughput_limit
-# }
+module "cosmos_main" {
+  source              = "./modules/cosmos"
+  root_name           = local.main_root_name
+  resource_group_name = module.rg_main.name
+  main_location       = var.main_location
+  failover_location   = var.failover_location
+}
 
 # module "log_main" {
 #   source              = "./modules/log"
