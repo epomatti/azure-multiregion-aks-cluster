@@ -10,6 +10,4 @@ def get_collection(database: str, collection: str):
         connection_string = keyvault.get_cosmos_connection_string()
     else:
         connection_string = os.environ['COSMOSDB_CONNECTION_STRING']
-        print(len(connection_string))
-        print(f"_{connection_string}_")
     return MongoClient(connection_string).get_database(database).get_collection(collection)
