@@ -56,6 +56,7 @@ export SETUPTOOLS_USE_DISTUTILS=stdlib
 
 # get the dependencies
 pipenv install --dev
+pipenv shell
 
 # start
 python3 -m flask run
@@ -117,8 +118,11 @@ minikube tunnel
 To use Minikube with Azure real resources, create the appropriate Config Maps and Secrets:
 
 ```sh
+kubectl create configmap my-config --from-literal=USE_KEYVAULT=false
 kubectl create secret generic solution-secrets --from-literal=COSMOSDB_CONNECTION_STRING="$COSMOSDB_CONNECTION_STRING"
 ```
+
+kubectl create configmap my-config --from-literal=USE_KEYVAULT=false --from-literal=key2=config2
 
 ## Sources
 
