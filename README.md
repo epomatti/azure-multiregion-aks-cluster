@@ -1,51 +1,50 @@
-# azure-solution-geo-failover
+# Azure Multi-Region AKS Cluster
 
-A demo application to practice failover across geo-locations.
+A multi-region AKS cluster configured with Terraform.
 
-## Deployment
+## Cloud Deployment
 
-Login to Azure:
+Start by logging into Azure:
 
 ```sh
 az login
 ```
-Deploy the infrastructure:
+Deploy and configure the infrastructure with Terraform:
 
 ```sh
+# Create Azure resources
 terraform -chdir='infrastructure' init
 terraform -chdir='infrastructure' apply -auto-approve
-```
 
-Create the secrets and configuration:
-
-```sh
+# Setup Secrets and ConfigMaps in Kubernetes
 terraform -chdir='infrastructure/kubernetes' init
 terraform -chdir='infrastructure/kubernetes' apply -auto-approve
 ```
 
-Connect to the Kubernetes cluster:
+Create the Kubernetes objects defined in `yaml` manifests:
 
 ```sh
-az aks get-credentials \
-  -g 'rg-openvote555-westus' \
-  -n 'aks-openvote555-westus'
+# Connect to the cluster
+az aks get-credentials -g $group -n $aks
+
+# Create the Deployments and Services
+kubectl apply -f 'kubernetes'
+
+# Deploy the rules to the Application Gateway
+kubectl apply -f 'kubernetes/azure'
 ```
 
-Deploy the applications and services:
-
-```
-kubectl apply -f kubernetes.yaml
-```
+That's it! Services should be available using the Azure Front Door endpoint.
 
 ## Local Development
 
-### Resources
+Start MongoDB
 
 ```sh
 docker run -d --name mongodb -p 27017:27017 mongo
 ```
 
-### Python Microservices
+Working with the microservices (open each one individually on VS Code for a better experience):
 
 ```sh
 # Creates venv in project, same as PIPENV_VENV_IN_PROJECT=1
@@ -62,14 +61,14 @@ pipenv shell
 python3 -m flask run
 ```
 
-### Frontend
+Starting the frontend (under development):
 
 ```sh
 yarn install
 yarn dev -o
 ```
 
-## Local development with Cloud resources
+### Local development with Cloud resources
 
 This will create the necessary resources to develop locally but with Azure resources instead of locals, which is useful to test before pushing for integration testing.
 
@@ -82,25 +81,7 @@ Set the Key Vault URI to your `.env` file.
 
 Authentication works via local context, so you must be connected with `az login`. Microsoft SDKs will automatically detect the authenticated context when connecting to the Key Vault.
 
-
-## Docker Development
-
-```
-docker build --tag poll .
-docker build --tag vote .
-
-docker run -p 4000:8080 --name poll-app poll
-docker run -p 5000:8080 --name vote-app vote
-```
-
-With compose:
-
-```sh
-docker-compose build
-docker-compose up
-```
-
-## Minikube
+### Minikube
 
 ```sh
 minikube start
@@ -113,18 +94,24 @@ kubectl apply -f kubernetes/minikube/nginx-ingress.yaml
 minikube tunnel
 ```
 
-### Minikube with Cloud Resources
+### Docker
 
-To use Minikube with Azure real resources, create the appropriate Config Maps and Secrets:
+```
+docker build --tag poll .
+docker build --tag vote .
 
-```sh
-kubectl create configmap my-config --from-literal=USE_KEYVAULT=false
-kubectl create secret generic solution-secrets --from-literal=COSMOSDB_CONNECTION_STRING="$COSMOSDB_CONNECTION_STRING"
+docker run -p 4000:8080 --name poll-app poll
+docker run -p 5000:8080 --name vote-app vote
 ```
 
-kubectl create configmap my-config --from-literal=USE_KEYVAULT=false --from-literal=key2=config2
+Or with Docker Compose:
 
-## Sources
+```sh
+docker-compose build
+docker-compose up
+```
+
+## Source
 
 ```
 https://pipenv-fork.readthedocs.io/en/latest/basics.html

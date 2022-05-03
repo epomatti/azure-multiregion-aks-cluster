@@ -119,6 +119,20 @@ module "frontdoor" {
 
 ### Outputs
 
-# output "keyvault_main_url" {
-#   value = module.kv_main.uri
-# }
+output "main_resource_group_name" {
+  value       = module.rg_main.name
+  description = "Set this value as ENV $group to connect to the Kubernetes cluster using kubectl."
+}
+
+output "main_aks_name" {
+  value       = module.aks_main.name
+  description = "Set this value as ENV $aks to connect to the Kubernetes cluster using kubectl."
+}
+
+output "main_keyvault_url" {
+  value = module.kv_main.url
+}
+
+output "main_aks_fqdn" {
+  value = module.aks_main.fqdn
+}
