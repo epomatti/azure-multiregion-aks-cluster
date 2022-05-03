@@ -21,3 +21,7 @@ variable "ingress_subnet_cidr" {
 variable "log_analytics_workspace_id" {
   type = string
 }
+
+variable "tags" {
+  type = map(string)
+}

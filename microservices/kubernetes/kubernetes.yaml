@@ -26,11 +26,23 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           env:
-            - name: KEYVAULT_URL
+            - name: USE_KEYVAULT
+              valueFrom:
+                configMapKeyRef:
+                  name: solution-configmap
+                  key: USE_KEYVAULT
+            - name: KEYVAULT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: solution-configmap
+                  key: KEYVAULT_URI
+                  optional: true
+            - name: COSMOSDB_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
                   name: solution-secrets
-                  key: KEYVAULT_URL
+                  key: COSMOSDB_CONNECTION_STRING
+                  optional: true
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,11 +73,23 @@ spec:
           env:
             - name: POLL_API
               value: http://poll-service:30000
-            - name: KEYVAULT_URL
+            - name: USE_KEYVAULT
+              valueFrom:
+                configMapKeyRef:
+                  name: solution-secrets
+                  key: USE_KEYVAULT
+            - name: KEYVAULT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: solution-secrets
+                  key: KEYVAULT_URI
+                  optional: true
+            - name: COSMOSDB_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
                   name: solution-secrets
-                  key: KEYVAULT_URL
+                  key: COSMOSDB_CONNECTION_STRING
+                  optional: true
 ---
 apiVersion: v1
 kind: Service

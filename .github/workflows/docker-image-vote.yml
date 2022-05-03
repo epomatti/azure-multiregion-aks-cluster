@@ -3,14 +3,14 @@ name: Docker Vote
 on:
   push:
     branches: ['main']
-    paths: ['microservices/vote/**']
+    paths: ['microservices/services/vote/**']
     
   workflow_dispatch:
 
 defaults:
   run:
     shell: bash
-    working-directory: microservices/vote
+    working-directory: microservices/services/vote
     
 env:
   REGISTRY: ghcr.io
@@ -36,6 +36,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:microservices/vote"
+          context: "{{defaultContext}}:microservices/services/vote"
           push: true
           tags: epomatti/azure-failover-vote:latest

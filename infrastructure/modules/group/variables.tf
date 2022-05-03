@@ -5,3 +5,7 @@ variable "root_name" {
 variable "location" {
   type = string
 }
+
+variable "tags" {
+  type = map(string)
+}

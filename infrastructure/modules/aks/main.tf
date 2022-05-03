@@ -32,6 +32,8 @@ resource "azurerm_kubernetes_cluster" "default" {
     type = "SystemAssigned"
   }
 
+  tags = var.tags
+
 }
 
 

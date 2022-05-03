@@ -39,4 +39,6 @@ resource "azurerm_frontdoor" "default" {
     host_name = "ft-${var.root_name}.azurefd.net"
   }
 
+  tags = var.tags
+
 }

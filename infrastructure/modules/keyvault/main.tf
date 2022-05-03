@@ -25,6 +25,9 @@ resource "azurerm_key_vault" "default" {
       "Set"
     ]
   }
+
+  tags = var.tags
+
 }
 
 

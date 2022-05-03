@@ -23,6 +23,7 @@ provider "azurerm" {
 
 locals {
   root_name = "${var.application_name}-${var.environment}-${var.instance}"
+  tags      = { Instance = "Development" }
 }
 
 
@@ -30,6 +31,7 @@ module "rg" {
   source    = "../modules/group"
   root_name = local.root_name
   location  = var.location
+  tags      = local.tags
 }
 
 module "cosmos" {
@@ -38,6 +40,7 @@ module "cosmos" {
   resource_group_name = module.rg.name
   main_location       = var.location
   failover_location   = var.location
+  tags                = local.tags
 }
 
 data "azurerm_client_config" "current" {}
@@ -49,6 +52,7 @@ module "kv" {
   location                 = var.location
   aks_principal_id         = data.azurerm_client_config.current.client_id
   cosmos_connection_string = module.cosmos.primary_connection_tring
+  tags                     = local.tags
 }
 
 output "keyvault_uri" {

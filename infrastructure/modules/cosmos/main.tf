@@ -32,6 +32,8 @@ resource "azurerm_cosmosdb_account" "default" {
   #   failover_priority = 1
   # }
 
+  tags = var.tags
+
 }
 
 resource "azurerm_cosmosdb_mongo_database" "poll" {

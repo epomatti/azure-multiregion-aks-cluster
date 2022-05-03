@@ -24,6 +24,8 @@ provider "azurerm" {
 locals {
   main_root_name     = "${var.application_name}-${var.environment}-${var.main_instance}"
   failover_root_name = "${var.application_name}-${var.environment}-${var.failover_instance}"
+  main_tags          = { Instance = "Main" }
+  failover_tags      = { Instance = "Failover" }
 }
 
 ### Main Location
@@ -32,6 +34,7 @@ module "rg_main" {
   source    = "./modules/group"
   root_name = local.main_root_name
   location  = var.main_location
+  tags      = local.main_tags
 }
 
 module "cosmos_main" {
@@ -40,6 +43,7 @@ module "cosmos_main" {
   resource_group_name = module.rg_main.name
   main_location       = var.main_location
   failover_location   = var.failover_location
+  tags                = local.main_tags
 }
 
 module "log_main" {
@@ -47,6 +51,7 @@ module "log_main" {
   root_name           = local.main_root_name
   resource_group_name = module.rg_main.name
   location            = var.main_location
+  tags                = local.main_tags
 }
 
 module "aks_main" {
@@ -57,6 +62,7 @@ module "aks_main" {
   vm_size                    = var.aks_vm_size
   ingress_subnet_cidr        = var.aks_ingress_subnet_cidr
   log_analytics_workspace_id = module.log_main.id
+  tags                       = local.main_tags
 }
 
 module "kv_main" {
@@ -66,6 +72,7 @@ module "kv_main" {
   location                 = var.main_location
   aks_principal_id         = module.aks_main.principal_id
   cosmos_connection_string = module.cosmos_main.primary_connection_tring
+  tags                     = local.main_tags
 }
 
 resource "azurerm_role_assignment" "aks_cosmos_main" {
@@ -80,6 +87,7 @@ module "frontdoor" {
   resource_group_name  = module.rg_main.name
   main_ingress_address = module.aks_main.agw_public_ip_address
   # failover_ingress_address = module.aks_failover.agw_public_ip_address
+  tags = local.main_tags
 }
 
 ### Failover Location ###

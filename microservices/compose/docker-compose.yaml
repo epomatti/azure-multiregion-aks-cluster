@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/code
     environment:
-      MONGODB_CONNECTION_STRING: mongodb://app:devpass@microservices_mongo_1:27017
+      MONGODB_CONNECTION_STRING: mongodb://microservices_mongo_1:27017
     depends_on:
       - mongo
   vote:
@@ -17,13 +17,10 @@ services:
     volumes:
       - .:/code
     environment:
-      MONGODB_CONNECTION_STRING: mongodb://app:devpass@microservices_mongo_1:27017
+      MONGODB_CONNECTION_STRING: mongodb://microservices_mongo_1:27017
       POLL_API: http://microservices_poll_1:8080
     depends_on:
       - mongo
       - poll
   mongo:
     image: "mongo"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: app
-      MONGO_INITDB_ROOT_PASSWORD: devpass

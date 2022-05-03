@@ -13,13 +13,13 @@ variable "application_name" {
 
 variable "location" {
   type        = string
-  description = "The Location of the infrastructure."
+  description = "The location of the infrastructure."
   default     = "westus"
 }
 
 variable "environment" {
   type        = string
-  description = "The keyword to identify te type of Environment that it's being deployed."
+  description = "The keyword to identify te type of environment that it's being deployed."
   default     = "dev"
 }
 
