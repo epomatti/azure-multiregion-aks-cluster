@@ -5,6 +5,7 @@ from . import utils
 
 
 def get_collection(database: str, collection: str):
+    print("getting collection")
     use_keyvault = utils.to_bool(os.environ['USE_KEYVAULT'])
     if use_keyvault is True:
         connection_string = keyvault.get_cosmos_connection_string()
