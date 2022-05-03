@@ -27,3 +27,18 @@ spec:
   ports:
     - port: 27017
       targetPort: 27017
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: solution-configmap
+data:
+  USE_KEYVAULT: false
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: solution-secrets
+type: Opaque
+data:
+  COSMOSDB_CONNECTION_STRING: mongodb://localhost:27017
