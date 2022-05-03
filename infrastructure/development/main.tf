@@ -55,7 +55,7 @@ module "kv" {
   tags                     = local.tags
 }
 
-output "keyvault_uri" {
+output "keyvault_url" {
   description = "Add this to your development environment configuration."
   value       = module.kv.uri
   sensitive   = false

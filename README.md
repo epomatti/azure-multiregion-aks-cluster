@@ -101,15 +101,23 @@ docker-compose up
 
 ## Minikube
 
-```
+```sh
 minikube start
 minikube addons enable ingress
 
-kubectl create secret generic solution-secrets --from-env-file=secrets.env
-
-kubectl apply -f kubernetes.yaml
+kubectl apply -f kubernetes/minikube/mongo.yaml
+kubectl apply -f kubernetes/kubernetes.yaml
+kubectl apply -f kubernetes/minikube/nginx-ingress.yaml
 
 minikube tunnel
+```
+
+### Minikube with Cloud Resources
+
+To use Minikube with Azure real resources, create the appropriate Config Maps and Secrets:
+
+```sh
+kubectl create secret generic solution-secrets --from-literal=COSMOSDB_CONNECTION_STRING="$COSMOSDB_CONNECTION_STRING"
 ```
 
 ## Sources

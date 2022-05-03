@@ -3,14 +3,14 @@ name: Docker Poll
 on:
   push:
     branches: ['main']
-    paths: ['microservices/services/poll/**']
+    paths: ['microservices/poll/**']
     
   workflow_dispatch:
 
 defaults:
   run:
     shell: bash
-    working-directory: microservices/services/poll
+    working-directory: microservices/poll
     
 env:
   REGISTRY: ghcr.io
@@ -36,6 +36,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:microservices/services/poll"
+          context: "{{defaultContext}}:microservices/poll"
           push: true
           tags: epomatti/azure-failover-poll:latest

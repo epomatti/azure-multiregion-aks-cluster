@@ -119,6 +119,6 @@ module "frontdoor" {
 
 ### Outputs
 
-# output "keyvault_main_uri" {
+# output "keyvault_main_url" {
 #   value = module.kv_main.uri
 # }

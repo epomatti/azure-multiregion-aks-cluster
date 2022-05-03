@@ -33,7 +33,7 @@ kind: ConfigMap
 metadata:
   name: solution-configmap
 data:
-  USE_KEYVAULT: false
+  USE_KEYVAULT: "false"
 ---
 apiVersion: v1
 kind: Secret
@@ -41,4 +41,5 @@ metadata:
   name: solution-secrets
 type: Opaque
 data:
-  COSMOSDB_CONNECTION_STRING: mongodb://localhost:27017
+  # mongodb://localhost:27017
+  COSMOSDB_CONNECTION_STRING: bW9uZ29kYjovL2xvY2FsaG9zdDoyNzAxNwo=

@@ -31,11 +31,11 @@ spec:
                 configMapKeyRef:
                   name: solution-configmap
                   key: USE_KEYVAULT
-            - name: KEYVAULT_URI
+            - name: KEYVAULT_URL
               valueFrom:
                 configMapKeyRef:
                   name: solution-configmap
-                  key: KEYVAULT_URI
+                  key: KEYVAULT_URL
                   optional: true
             - name: COSMOSDB_CONNECTION_STRING
               valueFrom:
@@ -78,11 +78,11 @@ spec:
                 configMapKeyRef:
                   name: solution-secrets
                   key: USE_KEYVAULT
-            - name: KEYVAULT_URI
+            - name: KEYVAULT_URL
               valueFrom:
                 configMapKeyRef:
                   name: solution-secrets
-                  key: KEYVAULT_URI
+                  key: KEYVAULT_URL
                   optional: true
             - name: COSMOSDB_CONNECTION_STRING
               valueFrom:
