@@ -41,5 +41,5 @@ metadata:
   name: solution-secrets
 type: Opaque
 data:
-  # mongodb://localhost:27017
-  COSMOSDB_CONNECTION_STRING: bW9uZ29kYjovL2xvY2FsaG9zdDoyNzAxNwo=
+  # mongodb://mongo-service:27017
+  COSMOSDB_CONNECTION_STRING: bW9uZ29kYjovL21vbmdvLXNlcnZpY2U6MjcwMTcK
