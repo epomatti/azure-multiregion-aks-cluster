@@ -25,6 +25,9 @@ Create the Kubernetes objects defined in `yaml` manifests:
 
 ```sh
 # Connect to the cluster
+group='<resource_group_name>'
+aks='<ask_cluster_name>'
+
 az aks get-credentials -g $group -n $aks
 
 # Create the Deployments and Services
@@ -127,4 +130,5 @@ https://docs.microsoft.com/en-us/azure/aks/configure-kubenet
 https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-log-query
 https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-add-health-probes
 http://pylint-messages.wikidot.com/all-messages
+https://azure.github.io/azure-workload-identity/docs/
 ```

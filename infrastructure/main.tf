@@ -83,7 +83,7 @@ resource "azurerm_role_assignment" "aks_cosmos_main" {
 
 module "frontdoor" {
   source               = "./modules/frontdoor"
-  root_name            = local.main_root_name
+  root_name            = "${var.application_name}-${var.environment}"
   resource_group_name  = module.rg_main.name
   main_ingress_address = module.aks_main.agw_public_ip_address
   # failover_ingress_address = module.aks_failover.agw_public_ip_address
@@ -135,4 +135,8 @@ output "main_keyvault_url" {
 
 output "main_aks_fqdn" {
   value = module.aks_main.fqdn
+}
+
+output "frontdoor_host_name" {
+  value = module.frontdoor.host_name
 }
