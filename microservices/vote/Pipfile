@@ -9,8 +9,8 @@ flask = "*"
 python-dotenv = "*"
 cerberus = "*"
 requests = "*"
-azure.identity = "*"
-azure.keyvault.secrets = "*"
+azure-keyvault-secrets = "*"
+azure-identity = "*"
 
 [dev-packages]
 autopep8 = "*"
