@@ -4,6 +4,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   location            = var.location
   dns_prefix          = "aks-${var.root_name}"
   node_resource_group = "rg-k8s-${var.root_name}"
+  oidc_issuer_enabled = true
 
   default_node_pool {
     name       = "default"

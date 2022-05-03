@@ -9,6 +9,10 @@ Start by logging into Azure:
 ```sh
 az login
 ```
+
+**Requirement:** Enable [OIDC Preview](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#oidc-issuer-preview) as part of Managed Identity configuration. Follow the documentation and once finished, return here to create the infrastructure.
+
+
 Deploy and configure the infrastructure with Terraform:
 
 ```sh
@@ -50,7 +54,7 @@ docker run -d --name mongodb -p 27017:27017 mongo
 Working with the microservices (open each one individually on VS Code for a better experience):
 
 ```sh
-# Creates venv in project, same as PIPENV_VENV_IN_PROJECT=1
+# Creates venv in project
 mkdir .venv
 
 # Ad-hoc fix for https://github.com/pypa/setuptools/issues/3278

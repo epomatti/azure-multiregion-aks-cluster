@@ -13,3 +13,7 @@ output "name" {
 output "fqdn" {
   value = azurerm_kubernetes_cluster.default.fqdn
 }
+
+output "oidc_issuer_url" {
+  value = azurerm_kubernetes_cluster.default.oidc_issuer_url
+}
