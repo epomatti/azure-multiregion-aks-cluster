@@ -76,12 +76,12 @@ spec:
             - name: USE_KEYVAULT
               valueFrom:
                 configMapKeyRef:
-                  name: solution-secrets
+                  name: solution-configmap
                   key: USE_KEYVAULT
             - name: KEYVAULT_URL
               valueFrom:
                 configMapKeyRef:
-                  name: solution-secrets
+                  name: solution-configmap
                   key: KEYVAULT_URL
                   optional: true
             - name: COSMOSDB_CONNECTION_STRING
