@@ -10,6 +10,15 @@ variable "location" {
   type = string
 }
 
+variable "default_namespace" {
+  type = string
+}
+
+variable "node_count" {
+  type    = number
+  default = 1
+}
+
 variable "vm_size" {
   type = string
 }

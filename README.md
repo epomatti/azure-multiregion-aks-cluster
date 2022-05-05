@@ -12,14 +12,25 @@ az login
 
 **Requirement:** Enable [OIDC Preview](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#oidc-issuer-preview) as part of Managed Identity configuration. Follow the documentation and once finished, return here to create the infrastructure.
 
-
 Deploy and configure the infrastructure with Terraform:
 
 ```sh
 # Create Azure resources
 terraform -chdir='infrastructure' init
 terraform -chdir='infrastructure' apply -auto-approve
+```
 
+```sh
+helm repo add azure-workload-identity 'https://azure.github.io/azure-workload-identity/charts'
+helm repo update
+AZURE_TENANT_ID=$(az account show --query tenantId --output tsv)
+helm install 'workload-identity-webhook' 'azure-workload-identity/workload-identity-webhook' \
+   --namespace azure-workload-identity-system \
+   --create-namespace \
+   --set azureTenantID="$AZURE_TENANT_ID"
+```
+
+```
 # Setup Secrets and ConfigMaps in Kubernetes
 terraform -chdir='infrastructure/kubernetes' init
 terraform -chdir='infrastructure/kubernetes' apply -auto-approve
@@ -135,4 +146,6 @@ https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insigh
 https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-add-health-probes
 http://pylint-messages.wikidot.com/all-messages
 https://azure.github.io/azure-workload-identity/docs/
+https://docs.microsoft.com/en-us/azure/developer/terraform/create-k8s-cluster-with-tf-and-aks
+https://learn.hashicorp.com/tutorials/terraform/kubernetes-provider
 ```

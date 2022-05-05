@@ -10,7 +10,7 @@ variable "location" {
   type = string
 }
 
-variable "aks_principal_id" {
+variable "aks_service_principal_object_id" {
   type = string
 }
 

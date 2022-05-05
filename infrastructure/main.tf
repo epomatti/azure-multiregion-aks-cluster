@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.4.0"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "2.22.0"
+    }
   }
   backend "local" {
     path = "./.workspace/terraform.tfstate"
@@ -21,11 +25,15 @@ provider "azurerm" {
   }
 }
 
+provider "azuread" {}
+
 locals {
-  main_root_name     = "${var.application_name}-${var.environment}-${var.main_instance}"
-  failover_root_name = "${var.application_name}-${var.environment}-${var.failover_instance}"
-  main_tags          = { Instance = "Main" }
-  failover_tags      = { Instance = "Failover" }
+  main_root_name                        = "${var.application_name}-${var.environment}-${var.main_instance}"
+  failover_root_name                    = "${var.application_name}-${var.environment}-${var.failover_instance}"
+  main_tags                             = { Instance = "Main" }
+  failover_tags                         = { Instance = "Failover" }
+  aks_namespace                         = "default"
+  app_registration_service_account_name = "workload-identity-sa"
 }
 
 ### Main Location
@@ -59,26 +67,31 @@ module "aks_main" {
   root_name                  = local.main_root_name
   resource_group_name        = module.rg_main.name
   location                   = var.main_location
+  default_namespace          = local.aks_namespace
   vm_size                    = var.aks_vm_size
+  node_count                 = var.aks_node_count
   ingress_subnet_cidr        = var.aks_ingress_subnet_cidr
   log_analytics_workspace_id = module.log_main.id
   tags                       = local.main_tags
 }
 
-module "kv_main" {
-  source                   = "./modules/keyvault"
-  root_name                = local.main_root_name
-  resource_group_name      = module.rg_main.name
-  location                 = var.main_location
-  aks_principal_id         = module.aks_main.principal_id
-  cosmos_connection_string = module.cosmos_main.primary_connection_tring
-  tags                     = local.main_tags
+module "app_registration" {
+  source               = "./modules/app-registration"
+  environment          = var.environment
+  oidc_issuer_url      = module.aks_main.oidc_issuer_url
+  aks_namespace        = local.aks_namespace
+  service_account_name = local.app_registration_service_account_name
 }
 
-resource "azurerm_role_assignment" "aks_cosmos_main" {
-  scope                = module.cosmos_main.id
-  role_definition_name = "DocumentDB Account Contributor"
-  principal_id         = module.aks_main.principal_id
+
+module "kv_main" {
+  source                          = "./modules/keyvault"
+  root_name                       = local.main_root_name
+  resource_group_name             = module.rg_main.name
+  location                        = var.main_location
+  aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
+  cosmos_connection_string        = module.cosmos_main.primary_connection_tring
+  tags                            = local.main_tags
 }
 
 module "frontdoor" {

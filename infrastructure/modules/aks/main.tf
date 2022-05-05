@@ -7,8 +7,8 @@ resource "azurerm_kubernetes_cluster" "default" {
   oidc_issuer_enabled = true
 
   default_node_pool {
-    name       = "default"
-    node_count = 1
+    name       = var.default_namespace
+    node_count = var.node_count
     vm_size    = var.vm_size
   }
 

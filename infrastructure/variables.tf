@@ -54,3 +54,8 @@ variable "aks_ingress_subnet_cidr" {
   type        = string
   default     = "10.225.0.0/16"
 }
+
+variable "aks_node_count" {
+  type    = number
+  default = 1
+}
