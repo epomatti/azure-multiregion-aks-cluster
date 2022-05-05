@@ -10,6 +10,7 @@ python-dotenv = "*"
 cerberus = "*"
 azure-keyvault-secrets = "*"
 azure-identity = "*"
+msal = "*"
 
 [dev-packages]
 autopep8 = "*"

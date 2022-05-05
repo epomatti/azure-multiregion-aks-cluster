@@ -31,6 +31,11 @@ spec:
                 configMapKeyRef:
                   name: solution-configmap
                   key: USE_KEYVAULT
+            - name: USE_TOKEN_CREDENTIAL
+              valueFrom:
+                configMapKeyRef:
+                  name: solution-configmap
+                  key: USE_TOKEN_CREDENTIAL
             - name: KEYVAULT_URL
               valueFrom:
                 configMapKeyRef:
@@ -78,6 +83,11 @@ spec:
                 configMapKeyRef:
                   name: solution-configmap
                   key: USE_KEYVAULT
+            - name: USE_TOKEN_CREDENTIAL
+              valueFrom:
+                configMapKeyRef:
+                  name: solution-configmap
+                  key: USE_TOKEN_CREDENTIAL
             - name: KEYVAULT_URL
               valueFrom:
                 configMapKeyRef:

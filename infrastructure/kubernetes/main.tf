@@ -83,8 +83,9 @@ resource "kubernetes_config_map" "default" {
     name = "solution-configmap"
   }
   data = {
-    USE_KEYVAULT = true
-    KEYVAULT_URL = data.azurerm_key_vault.main.vault_uri
+    USE_KEYVAULT         = true
+    USE_TOKEN_CREDENTIAL = true
+    KEYVAULT_URL         = data.azurerm_key_vault.main.vault_uri
   }
 }
 
