@@ -14,6 +14,7 @@ spec:
       labels:
         app: poll
     spec:
+      serviceAccount: workload-identity-sa
       containers:
         - name: poll-container
           image: epomatti/azure-failover-poll
@@ -64,6 +65,7 @@ spec:
       labels:
         app: vote
     spec:
+      serviceAccount: workload-identity-sa
       containers:
         - name: vote-container
           image: epomatti/azure-failover-vote

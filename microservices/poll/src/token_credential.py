@@ -28,7 +28,8 @@ class ClientAssertionCredential:
             authority="{}{}".format(azure_authority_host, azure_tenant_id)
         )
 
-    def get_token(self, *scopes):
+    # pylint: disable=unused-argument
+    def get_token(self, *scopes, **kwargs):
         # get the token using the application
         token = self.app.acquire_token_for_client(scopes)
         if 'error' in token:
