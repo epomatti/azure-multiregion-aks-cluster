@@ -4,12 +4,6 @@ A multi-region AKS cluster configured with Terraform.
 
 ## Cloud Deployment
 
-Start by logging into Azure:
-
-```sh
-az login
-```
-
 **Requirement:** Enable [OIDC Preview](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#oidc-issuer-preview) as part of Managed Identity configuration. Follow the documentation and once finished, return here to create the infrastructure.
 
 Deploy and configure the infrastructure with Terraform:
@@ -18,16 +12,6 @@ Deploy and configure the infrastructure with Terraform:
 # Create Azure resources
 terraform -chdir='infrastructure' init
 terraform -chdir='infrastructure' apply -auto-approve
-```
-
-```sh
-helm repo add azure-workload-identity 'https://azure.github.io/azure-workload-identity/charts'
-helm repo update
-AZURE_TENANT_ID=$(az account show --query tenantId --output tsv)
-helm install 'workload-identity-webhook' 'azure-workload-identity/workload-identity-webhook' \
-   --namespace azure-workload-identity-system \
-   --create-namespace \
-   --set azureTenantID="$AZURE_TENANT_ID"
 ```
 
 ```

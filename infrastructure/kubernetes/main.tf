@@ -76,6 +76,18 @@ resource "kubernetes_service_account" "default" {
   }
 }
 
+### ConfigMap
+
+resource "kubernetes_config_map" "default" {
+  metadata {
+    name = "solution-configmap"
+  }
+  data = {
+    USE_KEYVAULT = true
+    KEYVAULT_URL = data.azurerm_key_vault.main.vault_uri
+  }
+}
+
 ### Deploy the Pod to Kubernetes
 
 resource "kubernetes_pod" "quick_start" {
