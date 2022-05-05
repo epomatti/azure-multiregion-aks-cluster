@@ -51,3 +51,13 @@ resource "azurerm_key_vault_secret" "cosmos" {
     azurerm_key_vault_access_policy.superadmin
   ]
 }
+
+resource "azurerm_key_vault_secret" "hello" {
+  name         = "my-secret"
+  value        = "hello"
+  key_vault_id = azurerm_key_vault.default.id
+
+  depends_on = [
+    azurerm_key_vault_access_policy.superadmin
+  ]
+}

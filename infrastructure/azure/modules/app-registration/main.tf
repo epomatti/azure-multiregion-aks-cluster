@@ -1,5 +1,5 @@
 resource "azuread_application" "default" {
-  display_name = "aks-service-principal-${var.environment}"
+  display_name = "aks-service-principal-${var.root_name}"
 }
 
 resource "azuread_application_federated_identity_credential" "default" {

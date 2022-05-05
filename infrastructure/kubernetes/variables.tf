@@ -38,3 +38,8 @@ variable "failover_instance" {
   description = "Instance code to be added to Failover resources."
   default     = "002"
 }
+
+variable "aks_namespace" {
+  type    = string
+  default = "default"
+}

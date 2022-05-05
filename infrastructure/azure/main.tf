@@ -77,7 +77,7 @@ module "aks_main" {
 
 module "app_registration" {
   source               = "./modules/app-registration"
-  environment          = var.environment
+  root_name            = local.main_root_name
   oidc_issuer_url      = module.aks_main.oidc_issuer_url
   aks_namespace        = local.aks_namespace
   service_account_name = local.app_registration_service_account_name

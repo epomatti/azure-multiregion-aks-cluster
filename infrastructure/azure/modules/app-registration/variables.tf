@@ -1,6 +1,5 @@
-variable "environment" {
-  type    = string
-  default = "prod"
+variable "root_name" {
+  type = string
 }
 
 variable "oidc_issuer_url" {

@@ -26,14 +26,15 @@ provider "azurerm" {
 ### Local Variables
 
 locals {
-  resource_group_name   = "rg-${var.app_name}"
-  keyvault_name         = "kv-${var.app_name}"
-  aks_name              = "aks-${var.app_name}"
-  app_registration_name = "aks-${var.app_name}-service-principal"
+  main_root_name        = "${var.application_name}-${var.environment}-${var.main_instance}"
+  resource_group_name   = "rg-${local.main_root_name}"
+  keyvault_name         = "kv-${local.main_root_name}"
+  aks_name              = "aks-${local.main_root_name}"
+  app_registration_name = "aks-service-principal-${local.main_root_name}"
   service_account_name  = "workload-identity-sa"
 }
 
-### Connect to Kubernetes with Interpoation
+### Connect to Kubernetes
 
 data "azurerm_client_config" "current" {}
 
@@ -86,7 +87,7 @@ resource "kubernetes_pod" "quick_start" {
   spec {
     service_account_name = local.service_account_name
     container {
-      image = var.container_image
+      image = "ghcr.io/azure/azure-workload-identity/msal-python"
       name  = "oidc"
 
       env {
