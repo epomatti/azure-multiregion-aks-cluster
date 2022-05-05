@@ -11,6 +11,7 @@ cerberus = "*"
 requests = "*"
 azure-keyvault-secrets = "*"
 azure-identity = "*"
+msal = "*"
 
 [dev-packages]
 autopep8 = "*"
