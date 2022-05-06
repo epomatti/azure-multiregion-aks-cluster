@@ -11,6 +11,7 @@ resource "azurerm_bastion_host" "default" {
   name                = "bas-${var.app_root}"
   location            = var.location
   resource_group_name = var.resource_group_name
+  sku                 = "Basic"
 
   ip_configuration {
     name                 = "configuration"

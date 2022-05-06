@@ -10,10 +10,6 @@ variable "location" {
   type = string
 }
 
-variable "nsg_id" {
-  type = string
-}
-
 variable "tags" {
   type = map(string)
 }

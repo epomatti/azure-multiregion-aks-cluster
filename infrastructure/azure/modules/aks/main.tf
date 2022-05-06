@@ -86,11 +86,11 @@ resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
 
 }
 
-data "azurerm_public_ip" "default" {
-  name                = "agw-${var.root_name}-appgwpip"
-  resource_group_name = azurerm_kubernetes_cluster.default.node_resource_group
+# data "azurerm_public_ip" "default" {
+#   name                = "agw-${var.root_name}-appgwpip"
+#   resource_group_name = azurerm_kubernetes_cluster.default.node_resource_group
 
-  depends_on = [
-    azurerm_kubernetes_cluster.default
-  ]
-}
+#   depends_on = [
+#     azurerm_kubernetes_cluster.default
+#   ]
+# }
