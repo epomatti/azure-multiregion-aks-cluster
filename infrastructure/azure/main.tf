@@ -28,12 +28,14 @@ provider "azurerm" {
 provider "azuread" {}
 
 locals {
-  main_root_name                        = "${var.application_name}-${var.environment}${var.main_instance}"
-  failover_root_name                    = "${var.application_name}-${var.environment}${var.failover_instance}"
-  main_tags                             = { Instance = "Main" }
-  failover_tags                         = { Instance = "Failover" }
+  main_root_name     = "${var.application_name}-${var.environment}${var.main_instance}"
+  failover_root_name = "${var.application_name}-${var.environment}${var.failover_instance}"
+
   aks_namespace                         = "default"
   app_registration_service_account_name = "workload-identity-sa"
+
+  main_tags     = { Instance = "Main" }
+  failover_tags = { Instance = "Failover" }
 }
 
 ### Main Location
