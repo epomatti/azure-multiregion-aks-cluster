@@ -55,9 +55,10 @@ module "vnet_main" {
 
 module "bastion_main" {
   source              = "./modules/bastion"
+  app_root            = local.main_root_name
   resource_group_name = module.rg_main.name
   location            = var.main_location
-  app_root            = local.main_root_name
+  subnet_id           = module.vnet_main.bastion_subnet_id
   tags                = local.main_tags
 }
 
@@ -66,7 +67,7 @@ module "cosmos_main" {
   root_name           = local.main_root_name
   resource_group_name = module.rg_main.name
   aks_subnet_id       = module.vnet_main.aks_subnet_id
-  bation_subnet_id    = module.vnet_main.bation_subnet_id
+  bastion_subnet_id   = module.vnet_main.bastion_subnet_id
   main_location       = var.main_location
   failover_location   = var.failover_location
   tags                = local.main_tags
@@ -114,7 +115,7 @@ module "kv_main" {
   resource_group_name             = module.rg_main.name
   location                        = var.main_location
   aks_subnet_id                   = module.vnet_main.aks_subnet_id
-  bation_subnet_id                = module.vnet_main.bation_subnet_id
+  bastion_subnet_id               = module.vnet_main.bastion_subnet_id
   aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
   cosmos_connection_string        = module.cosmos_main.primary_connection_tring
   tags                            = local.main_tags

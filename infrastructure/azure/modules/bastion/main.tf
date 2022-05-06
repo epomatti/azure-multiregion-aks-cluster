@@ -16,6 +16,6 @@ resource "azurerm_bastion_host" "default" {
     name                 = "configuration"
     subnet_id            = var.subnet_id
     public_ip_address_id = azurerm_public_ip.default.id
-    tags                 = var.tags
   }
+  tags = var.tags
 }
