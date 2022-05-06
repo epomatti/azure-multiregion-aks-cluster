@@ -14,7 +14,7 @@ variable "application_name" {
 variable "main_location" {
   type        = string
   description = "The location of the Main site."
-  default     = "westus"
+  default     = "westus3"
 }
 
 variable "failover_location" {
@@ -49,11 +49,11 @@ variable "aks_vm_size" {
   default     = "Standard_B2s"
 }
 
-variable "aks_ingress_subnet_cidr" {
-  description = "Application Gateway Ingress IP Range"
-  type        = string
-  default     = "10.225.0.0/16"
-}
+# variable "aks_ingress_subnet_cidr" {
+#   description = "Application Gateway Ingress IP Range"
+#   type        = string
+#   default     = "10.225.0.0/16"
+# }
 
 variable "aks_node_count" {
   type    = number

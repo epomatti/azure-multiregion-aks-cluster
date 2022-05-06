@@ -1,15 +1,17 @@
 resource "azurerm_kubernetes_cluster" "default" {
-  name                = "aks-${var.root_name}"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  dns_prefix          = "aks-${var.root_name}"
-  node_resource_group = "rg-k8s-${var.root_name}"
-  oidc_issuer_enabled = true
+  name                    = "aks-${var.root_name}"
+  resource_group_name     = var.resource_group_name
+  location                = var.location
+  dns_prefix              = "aks-${var.root_name}"
+  node_resource_group     = "rg-k8s-${var.root_name}"
+  private_cluster_enabled = true
+  oidc_issuer_enabled     = true
 
   default_node_pool {
-    name       = var.default_namespace
-    node_count = var.node_count
-    vm_size    = var.vm_size
+    name           = var.default_namespace
+    node_count     = var.node_count
+    vm_size        = var.vm_size
+    vnet_subnet_id = var.vnet_subnet_id
   }
 
   ingress_application_gateway {
@@ -21,9 +23,11 @@ resource "azurerm_kubernetes_cluster" "default" {
   #   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
   # }
 
-  # network_profile {
-  #   network_plugin = "azure"
-  # }
+  network_profile {
+    network_plugin = "azure"
+    # dns_service_ip = "10.90.0.10"
+    # docker_bridge_cidr = "172.17.0.1/16"
+  }
 
   oms_agent {
     log_analytics_workspace_id = var.log_analytics_workspace_id

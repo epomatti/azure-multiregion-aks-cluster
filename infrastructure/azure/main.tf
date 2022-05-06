@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.4.0"
+      version = "3.5.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -28,8 +28,8 @@ provider "azurerm" {
 provider "azuread" {}
 
 locals {
-  main_root_name                        = "${var.application_name}-${var.environment}-${var.main_instance}"
-  failover_root_name                    = "${var.application_name}-${var.environment}-${var.failover_instance}"
+  main_root_name                        = "${var.application_name}-${var.environment}${var.main_instance}"
+  failover_root_name                    = "${var.application_name}-${var.environment}${var.failover_instance}"
   main_tags                             = { Instance = "Main" }
   failover_tags                         = { Instance = "Failover" }
   aks_namespace                         = "default"
@@ -45,10 +45,19 @@ module "rg_main" {
   tags      = local.main_tags
 }
 
+module "vnet_main" {
+  source              = "./modules/vnet"
+  resource_group_name = module.rg_main.name
+  location            = var.main_location
+  app_root            = local.main_root_name
+  tags                = local.main_tags
+}
+
 module "cosmos_main" {
   source              = "./modules/cosmos"
   root_name           = local.main_root_name
   resource_group_name = module.rg_main.name
+  aks_subnet_id       = module.vnet_main.aks_subnet_id
   main_location       = var.main_location
   failover_location   = var.failover_location
   tags                = local.main_tags
@@ -63,16 +72,22 @@ module "log_main" {
 }
 
 module "aks_main" {
-  source                     = "./modules/aks"
-  root_name                  = local.main_root_name
-  resource_group_name        = module.rg_main.name
-  location                   = var.main_location
-  default_namespace          = local.aks_namespace
-  vm_size                    = var.aks_vm_size
-  node_count                 = var.aks_node_count
-  ingress_subnet_cidr        = var.aks_ingress_subnet_cidr
+  source              = "./modules/aks"
+  root_name           = local.main_root_name
+  resource_group_name = module.rg_main.name
+  location            = var.main_location
+
+  default_namespace = local.aks_namespace
+  vm_size           = var.aks_vm_size
+  node_count        = var.aks_node_count
+
+  vnet_subnet_id = module.vnet_main.aks_subnet_id
+  # ingress_subnet_cidr = var.aks_ingress_subnet_cidr
+  ingress_subnet_cidr = "10.1.0.0/16"
+
   log_analytics_workspace_id = module.log_main.id
-  tags                       = local.main_tags
+
+  tags = local.main_tags
 }
 
 module "app_registration" {
@@ -96,7 +111,7 @@ module "kv_main" {
 
 module "frontdoor" {
   source               = "./modules/frontdoor"
-  root_name            = "${var.application_name}-${var.environment}"
+  root_name            = "${var.application_name}${var.environment}"
   resource_group_name  = module.rg_main.name
   main_ingress_address = module.aks_main.agw_public_ip_address
   # failover_ingress_address = module.aks_failover.agw_public_ip_address

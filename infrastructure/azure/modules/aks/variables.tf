@@ -23,6 +23,10 @@ variable "vm_size" {
   type = string
 }
 
+variable "vnet_subnet_id" {
+  type = string
+}
+
 variable "ingress_subnet_cidr" {
   type = string
 }
