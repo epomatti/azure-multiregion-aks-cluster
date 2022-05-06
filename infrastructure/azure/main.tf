@@ -53,11 +53,20 @@ module "vnet_main" {
   tags                = local.main_tags
 }
 
+module "bastion_main" {
+  source              = "./modules/bastion"
+  resource_group_name = module.rg_main.name
+  location            = var.main_location
+  app_root            = local.main_root_name
+  tags                = local.main_tags
+}
+
 module "cosmos_main" {
   source              = "./modules/cosmos"
   root_name           = local.main_root_name
   resource_group_name = module.rg_main.name
   aks_subnet_id       = module.vnet_main.aks_subnet_id
+  bation_subnet_id    = module.vnet_main.bation_subnet_id
   main_location       = var.main_location
   failover_location   = var.failover_location
   tags                = local.main_tags
@@ -104,6 +113,8 @@ module "kv_main" {
   root_name                       = local.main_root_name
   resource_group_name             = module.rg_main.name
   location                        = var.main_location
+  aks_subnet_id                   = module.vnet_main.aks_subnet_id
+  bation_subnet_id                = module.vnet_main.bation_subnet_id
   aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
   cosmos_connection_string        = module.cosmos_main.primary_connection_tring
   tags                            = local.main_tags
@@ -147,14 +158,8 @@ module "frontdoor" {
 
 ### Outputs
 
-output "main_resource_group_name" {
-  value       = module.rg_main.name
-  description = "Set this value as ENV $group to connect to the Kubernetes cluster using kubectl."
-}
-
-output "main_aks_name" {
-  value       = module.aks_main.name
-  description = "Set this value as ENV $aks to connect to the Kubernetes cluster using kubectl."
+output "bastion_public_ip" {
+  value = module.bastion_main.public_ip
 }
 
 output "main_keyvault_url" {

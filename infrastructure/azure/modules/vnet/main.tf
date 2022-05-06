@@ -28,26 +28,39 @@ resource "azurerm_virtual_network" "default" {
   tags = var.tags
 }
 
+resource "azurerm_subnet" "bastion" {
+  name                 = "subnet-bastion"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.10.0.0/24"]
+  service_endpoints    = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+}
+
 resource "azurerm_subnet" "aks" {
   name                 = "subnet-aks"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.90.0.0/16"]
+  service_endpoints    = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
 }
 
 resource "azurerm_subnet" "cosmos" {
   name                 = "subnet-cosmos"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.0.10.0/24"]
-  service_endpoints    = ["Microsoft.AzureCosmosDB"]
+  address_prefixes     = ["10.10.10.0/24"]
 }
 
 resource "azurerm_subnet" "keyvault" {
   name                 = "subnet-keyvault"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.0.20.0/24"]
+  address_prefixes     = ["10.10.20.0/24"]
+}
+
+resource "azurerm_subnet_network_security_group_association" "subnet-bastion" {
+  subnet_id                 = azurerm_subnet.bastion.id
+  network_security_group_id = azurerm_network_security_group.default.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "subnet-aks" {

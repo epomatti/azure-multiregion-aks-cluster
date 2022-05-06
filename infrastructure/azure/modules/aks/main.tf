@@ -24,9 +24,10 @@ resource "azurerm_kubernetes_cluster" "default" {
   # }
 
   network_profile {
-    network_plugin = "azure"
-    # dns_service_ip = "10.90.0.10"
-    # docker_bridge_cidr = "172.17.0.1/16"
+    network_plugin     = "azure"
+    dns_service_ip     = "10.0.0.10"
+    docker_bridge_cidr = "172.17.0.1/16"
+    service_cidr       = "10.0.0.0/16"
   }
 
   oms_agent {

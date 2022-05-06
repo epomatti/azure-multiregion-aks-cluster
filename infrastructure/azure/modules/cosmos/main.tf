@@ -13,6 +13,10 @@ resource "azurerm_cosmosdb_account" "default" {
     id = var.aks_subnet_id
   }
 
+  virtual_network_rule {
+    id = var.bastion_subnet_id
+  }
+
   capabilities {
     name = "EnableMongo"
   }
