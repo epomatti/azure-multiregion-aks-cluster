@@ -80,13 +80,13 @@ module "aks" {
   tags = var.tags
 }
 
-# module "app_registration" {
-#   source               = "../modules/app-registration"
-#   root_name            = local.workload_name
-#   oidc_issuer_url      = module.aks.oidc_issuer_url
-#   aks_namespace        = local.aks_namespace
-#   service_account_name = local.app_registration_service_account_name
-# }
+module "app_registration" {
+  source               = "../modules/app-registration"
+  root_name            = local.workload_name
+  oidc_issuer_url      = module.aks.oidc_issuer_url
+  aks_namespace        = local.aks_namespace
+  service_account_name = local.app_registration_service_account_name
+}
 
 
 # module "kv" {
