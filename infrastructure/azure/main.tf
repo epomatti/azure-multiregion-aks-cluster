@@ -59,13 +59,14 @@ module "rg_global" {
 }
 
 module "cosmos" {
-  source              = "./modules/cosmos"
-  root_name           = local.global_root_name
-  resource_group_name = module.rg_global.name
-  aks_main_subnet_id  = module.network_main.aks_subnet_id
-  main_location       = var.main_location
-  failover_location   = var.failover_location
-  tags                = local.global_tags
+  source                 = "./modules/cosmos"
+  root_name              = local.global_root_name
+  resource_group_name    = module.rg_global.name
+  aks_main_subnet_id     = module.network_main.aks_subnet_id
+  main_location          = var.main_location
+  failover_location      = var.failover_location
+  jumpbox_main_subnet_id = module.network_main.jumpbox_subnet_id
+  tags                   = local.global_tags
 }
 
 ### Workload
@@ -78,6 +79,7 @@ module "workload_main" {
   instance                        = var.main_instance
   gateway_subnet_id               = module.network_main.gateway_subnet_id
   aks_subnet_id                   = module.network_main.aks_subnet_id
+  jumpbox_subnet_id               = module.network_main.jumpbox_subnet_id
   cosmos_primary_connection_tring = module.cosmos.primary_connection_tring
   aks_vm_size                     = var.aks_vm_size
   aks_node_count                  = var.aks_node_count

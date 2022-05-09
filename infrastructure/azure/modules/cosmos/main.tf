@@ -16,6 +16,10 @@ resource "azurerm_cosmosdb_account" "default" {
     id = var.aks_main_subnet_id
   }
 
+  virtual_network_rule {
+    id = var.jumpbox_main_subnet_id
+  }
+
   capabilities {
     name = "EnableMongo"
   }

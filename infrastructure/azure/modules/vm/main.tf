@@ -40,6 +40,7 @@ resource "azurerm_virtual_machine" "main" {
     computer_name  = "jumpbox"
     admin_username = "azadm"
     admin_password = "P@ssw0rd.123"
+    custom_data = filebase64("scripts/tools.sh")
   }
 
   os_profile_linux_config {
