@@ -31,47 +31,23 @@ locals {
   main_root_name     = "${var.application_name}-${var.environment}${var.main_instance}"
   failover_root_name = "${var.application_name}-${var.environment}${var.failover_instance}"
 
-  aks_namespace                         = "default"
-  app_registration_service_account_name = "workload-identity-sa"
-
   main_tags     = { Instance = "Main" }
   failover_tags = { Instance = "Failover" }
 }
 
 ### Main Location
 
-module "rg_main" {
-  source    = "./modules/group"
-  root_name = local.main_root_name
-  location  = var.main_location
-  tags      = local.main_tags
+module "network" {
+  source        = "./network"
+  location = var.main_location
+  environment   = var.environment
+  instance      = var.main_instance
+  tags          = local.main_tags
 }
 
-module "nsg_main" {
-  source              = "./modules/nsg"
-  resource_group_name = module.rg_main.name
-  location            = var.main_location
-  app_root            = local.main_root_name
-  tags                = local.main_tags
-}
+# module "workload_main" {
 
-module "vnet_main" {
-  source              = "./modules/vnet"
-  app_root            = local.main_root_name
-  resource_group_name = module.rg_main.name
-  location            = var.main_location
-  nsg_id              = module.nsg_main.id
-  tags                = local.main_tags
-}
-
-module "bastion_main" {
-  source              = "./modules/bastion"
-  app_root            = local.main_root_name
-  resource_group_name = module.rg_main.name
-  location            = var.main_location
-  subnet_id           = module.vnet_main.bastion_subnet_id
-  tags                = local.main_tags
-}
+# }
 
 # module "cosmos_main" {
 #   source              = "./modules/cosmos"

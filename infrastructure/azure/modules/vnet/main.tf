@@ -16,7 +16,14 @@ resource "azurerm_subnet" "bastion" {
   service_endpoints    = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
 }
 
-resource "azurerm_subnet" "aks" {
+resource "azurerm_subnet_network_security_group_association" "subnet-bastion" {
+  subnet_id                 = azurerm_subnet.bastion.id
+  network_security_group_id = var.nsg_id
+}
+
+# Workload Resouces
+
+resource "azurerm_subnet" "voteapp_aks" {
   name                 = "subnet-aks"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
@@ -24,36 +31,31 @@ resource "azurerm_subnet" "aks" {
   service_endpoints    = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
 }
 
-resource "azurerm_subnet" "cosmos" {
+resource "azurerm_subnet" "voteapp_cosmos" {
   name                 = "subnet-cosmos"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.10.10.0/24"]
 }
 
-resource "azurerm_subnet" "keyvault" {
+resource "azurerm_subnet" "voteapp_keyvault" {
   name                 = "subnet-keyvault"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.10.20.0/24"]
 }
 
-resource "azurerm_subnet_network_security_group_association" "subnet-bastion" {
-  subnet_id                 = azurerm_subnet.bastion.id
-  network_security_group_id = var.nsg_id
-}
-
 resource "azurerm_subnet_network_security_group_association" "subnet-aks" {
-  subnet_id                 = azurerm_subnet.aks.id
+  subnet_id                 = azurerm_subnet.voteapp_aks.id
   network_security_group_id = var.nsg_id
 }
 
 resource "azurerm_subnet_network_security_group_association" "subnet-cosmos" {
-  subnet_id                 = azurerm_subnet.cosmos.id
+  subnet_id                 = azurerm_subnet.voteapp_cosmos.id
   network_security_group_id = var.nsg_id
 }
 
 resource "azurerm_subnet_network_security_group_association" "subnet-keyvault" {
-  subnet_id                 = azurerm_subnet.keyvault.id
+  subnet_id                 = azurerm_subnet.voteapp_keyvault.id
   network_security_group_id = var.nsg_id
 }
