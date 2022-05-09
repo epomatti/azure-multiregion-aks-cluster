@@ -10,11 +10,7 @@ resource "azurerm_cosmosdb_account" "default" {
   is_virtual_network_filter_enabled = true
 
   virtual_network_rule {
-    id = var.aks_subnet_id
-  }
-
-  virtual_network_rule {
-    id = var.bastion_subnet_id
+    id = var.aks_main_subnet_id
   }
 
   capabilities {

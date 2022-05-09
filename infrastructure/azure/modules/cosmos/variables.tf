@@ -14,11 +14,7 @@ variable "failover_location" {
   type = string
 }
 
-variable "bastion_subnet_id" {
-  type = string
-}
-
-variable "aks_subnet_id" {
+variable "aks_main_subnet_id" {
   type = string
 }
 

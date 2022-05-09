@@ -1,6 +1,6 @@
-output "bastion_subnet_id" {
-  value = module.bastion.id
-}
+# output "bastion_subnet_id" {
+#   value = module.bastion.id
+# }
 
 output "aks_subnet_id" {
   value = module.vnet.aks_subnet_id

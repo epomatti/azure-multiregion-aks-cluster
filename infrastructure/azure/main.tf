@@ -28,37 +28,51 @@ provider "azurerm" {
 provider "azuread" {}
 
 locals {
+  global_root_name   = "${var.application_name}-${var.environment}"
   main_root_name     = "${var.application_name}-${var.environment}${var.main_instance}"
   failover_root_name = "${var.application_name}-${var.environment}${var.failover_instance}"
 
+  global_location = var.main_location
+
+  global_tags   = { Instance = "Global" }
   main_tags     = { Instance = "Main" }
   failover_tags = { Instance = "Failover" }
 }
 
 ### Main Location
 
-module "network" {
-  source        = "./network"
-  location = var.main_location
-  environment   = var.environment
-  instance      = var.main_instance
-  tags          = local.main_tags
+module "network_main" {
+  source      = "./network"
+  location    = var.main_location
+  environment = var.environment
+  instance    = var.main_instance
+  tags        = local.main_tags
+}
+
+### Global Resources
+
+module "rg_global" {
+  source    = "./modules/group"
+  root_name = local.global_root_name
+  location  = local.global_location
+  tags      = local.global_tags
+}
+
+module "cosmos" {
+  source              = "./modules/cosmos"
+  root_name           = local.global_root_name
+  resource_group_name = module.rg_global.name
+  aks_main_subnet_id  = module.network_main.aks_subnet_id
+  main_location       = var.main_location
+  failover_location   = var.failover_location
+  tags                = local.main_tags
 }
 
 # module "workload_main" {
 
 # }
 
-# module "cosmos_main" {
-#   source              = "./modules/cosmos"
-#   root_name           = local.main_root_name
-#   resource_group_name = module.rg_main.name
-#   aks_subnet_id       = module.vnet_main.aks_subnet_id
-#   bastion_subnet_id   = module.vnet_main.bastion_subnet_id
-#   main_location       = var.main_location
-#   failover_location   = var.failover_location
-#   tags                = local.main_tags
-# }
+
 
 # module "log_main" {
 #   source              = "./modules/log"
