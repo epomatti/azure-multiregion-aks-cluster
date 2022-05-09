@@ -89,14 +89,14 @@ module "app_registration" {
 }
 
 
-# module "kv" {
-#   source              = "../modules/keyvault"
-#   root_name           = local.workload_name
-#   resource_group_name = module.group.name
-#   location            = var.location
-#   aks_subnet_id       = var.aks_subnet_id
-#   # bastion_subnet_id               = module.vnet_main.bastion_subnet_id
-#   aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
-#   cosmos_connection_string        = var.cosmos_primary_connection_tring
-#   tags                            = var.tags
-# }
+module "kv" {
+  source              = "../modules/keyvault"
+  root_name           = local.workload_name
+  resource_group_name = module.group.name
+  location            = var.location
+  aks_subnet_id       = var.aks_subnet_id
+  # bastion_subnet_id               = module.vnet_main.bastion_subnet_id
+  aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
+  cosmos_connection_string        = var.cosmos_primary_connection_tring
+  tags                            = var.tags
+}
