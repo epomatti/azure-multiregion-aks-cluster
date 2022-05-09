@@ -2,6 +2,10 @@
 #   value = module.bastion.id
 # }
 
+output "gateway_subnet_id" {
+  value = module.vnet.gateway_subnet_id
+}
+
 output "aks_subnet_id" {
   value = module.vnet.aks_subnet_id
 }
