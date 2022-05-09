@@ -26,11 +26,20 @@ module "vnet" {
   tags                = var.tags
 }
 
-# module "bastion" {
-#   source              = "../modules/bastion"
-#   app_root            = local.root_name
-#   resource_group_name = module.group.name
-#   location            = var.location
-#   subnet_id           = module.vnet.bastion_subnet_id
-#   tags                = var.tags
-# }
+module "bastion" {
+  source              = "../modules/bastion"
+  app_root            = local.root_name
+  resource_group_name = module.group.name
+  location            = var.location
+  subnet_id           = module.vnet.bastion_subnet_id
+  tags                = var.tags
+}
+
+module "jumpbox" {
+  source              = "../modules/vm"
+  workload_name       = local.root_name
+  resource_group_name = module.group.name
+  location            = var.location
+  subnet_id           = module.vnet.jumpbox_subnet_id
+  tags                = var.tags
+}

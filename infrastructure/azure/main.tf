@@ -87,14 +87,14 @@ module "workload_main" {
 
 ### Global Front Door
 
-# module "frontdoor" {
-#   source               = "./modules/frontdoor"
-#   root_name            = "${var.application_name}${var.environment}"
-#   resource_group_name  = module.rg_main.name
-#   main_ingress_address = module.aks_main.agw_public_ip_address
-#   # failover_ingress_address = module.aks_failover.agw_public_ip_address
-#   tags = local.main_tags
-# }
+module "frontdoor" {
+  source               = "./modules/frontdoor"
+  root_name            = "${var.application_name}${var.environment}"
+  resource_group_name  = module.rg_global.name
+  main_ingress_address = module.workload_main.agw_public_ip_address
+  # failover_ingress_address = module.aks_failover.agw_public_ip_address
+  tags = local.main_tags
+}
 
 
 

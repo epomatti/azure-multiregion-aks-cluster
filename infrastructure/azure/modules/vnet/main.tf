@@ -13,13 +13,21 @@ resource "azurerm_subnet" "bastion" {
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.10.0.0/24"]
-  service_endpoints    = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
 }
 
 resource "azurerm_subnet_network_security_group_association" "subnet-bastion" {
   subnet_id                 = azurerm_subnet.bastion.id
   network_security_group_id = var.nsg_id
 }
+
+resource "azurerm_subnet" "jumpbox" {
+  name                 = "subnet-jumpbox"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.5.0.0/24"]
+  service_endpoints    = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+}
+
 
 # Workload Resouces
 

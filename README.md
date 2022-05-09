@@ -6,6 +6,8 @@ A multi-region AKS cluster configured with Terraform.
 
 **Requirement:** Enable [OIDC Preview](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#oidc-issuer-preview) as part of Managed Identity configuration. Follow the documentation and once finished, return here to create the infrastructure.
 
+Preview: https://docs.microsoft.com/en-us/azure/aks/configure-azure-cni
+
 Deploy and configure the infrastructure with Terraform:
 
 ```sh
@@ -132,4 +134,6 @@ http://pylint-messages.wikidot.com/all-messages
 https://azure.github.io/azure-workload-identity/docs/
 https://docs.microsoft.com/en-us/azure/developer/terraform/create-k8s-cluster-with-tf-and-aks
 https://learn.hashicorp.com/tutorials/terraform/kubernetes-provider
+
+https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-network
 ```
