@@ -6,6 +6,20 @@ resource "azurerm_cosmosdb_account" "default" {
   kind                 = "MongoDB"
   mongo_server_version = "4.0"
 
+  public_network_access_enabled     = true
+  is_virtual_network_filter_enabled = true
+
+  # Added Portal and Azure Pulic DCs (https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall)
+  ip_range_filter = "0.0.0.0,104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
+
+  virtual_network_rule {
+    id = var.aks_main_subnet_id
+  }
+
+  virtual_network_rule {
+    id = var.jumpbox_main_subnet_id
+  }
+
   capabilities {
     name = "EnableMongo"
   }

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.4.0"
+      version = "3.5.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -24,7 +24,7 @@ provider "azurerm" {
 }
 
 locals {
-  main_root_name      = "${var.application_name}-${var.environment}-${var.main_instance}"
+  main_root_name      = "${var.application_name}-${var.environment}${var.main_instance}"
   aks_name            = "aks-${local.main_root_name}"
   resource_group_name = "rg-${local.main_root_name}"
 }

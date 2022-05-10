@@ -14,6 +14,14 @@ variable "failover_location" {
   type = string
 }
 
+variable "aks_main_subnet_id" {
+  type = string
+}
+
+variable "jumpbox_main_subnet_id" {
+  type = string
+}
+
 variable "tags" {
   type = map(string)
 }

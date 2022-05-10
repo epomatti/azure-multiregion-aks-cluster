@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.4.0"
+      version = "3.5.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
@@ -26,7 +26,7 @@ provider "azurerm" {
 ### Local Variables
 
 locals {
-  main_root_name        = "${var.application_name}-${var.environment}-${var.main_instance}"
+  main_root_name        = "${var.application_name}-${var.environment}${var.main_instance}"
   resource_group_name   = "rg-${local.main_root_name}"
   keyvault_name         = "kv-${local.main_root_name}"
   aks_name              = "aks-${local.main_root_name}"

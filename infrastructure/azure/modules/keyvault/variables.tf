@@ -10,6 +10,18 @@ variable "location" {
   type = string
 }
 
+# variable "bastion_subnet_id" {
+#   type = string
+# }
+
+variable "aks_subnet_id" {
+  type = string
+}
+
+variable "jumpbox_subnet_id" {
+  type = string
+}
+
 variable "aks_service_principal_object_id" {
   type = string
 }
