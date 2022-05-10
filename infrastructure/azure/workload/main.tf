@@ -46,7 +46,7 @@ variable "tags" {
 
 
 locals {
-  workload_name                         = "${var.application_name}-${var.environment}${var.instance}"
+  workload_name                         = "${var.application_name}-${var.environment}-${var.instance}"
   aks_namespace                         = "default"
   app_registration_service_account_name = "workload-identity-sa"
 }

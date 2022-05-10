@@ -6,15 +6,25 @@ A multi-region AKS cluster configured with Terraform.
 
 ## Cloud Deployment
 
-**Requirement:** Enable [OIDC Preview](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#oidc-issuer-preview) as part of Managed Identity configuration. Follow the documentation and once finished, return here to create the infrastructure.
+### 1 - Enable OIDC Issuer
 
-Deploy and configure the infrastructure with Terraform:
+Enable [OIDC Preview](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#oidc-issuer-preview) as part of Managed Identity configuration. Follow the documentation and once finished, return here to create to continue.
+
+### 2 - Network Deployment
+
+These are the base components to b
 
 ```sh
 # Create Azure resources
-terraform -chdir='infrastructure' init
-terraform -chdir='infrastructure' apply -auto-approve
+terraform -chdir='infrastructure/network' init
+terraform -chdir='infrastructure/network' apply -auto-approve
 ```
+
+You can now connect to the JumpBox VM using Bastion, and securely access the Kubernetes network.
+
+The JumpBox machine will be configured with a `cloud-init` script to install Terraform, Azure CLI, Kubectl.
+
+### 3 - Azure Resources Deployment
 
 ```
 # Setup Secrets and ConfigMaps in Kubernetes

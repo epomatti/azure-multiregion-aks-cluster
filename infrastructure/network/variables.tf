@@ -1,16 +1,5 @@
 ### General
 
-variable "application_name" {
-  type        = string
-  description = "The application name is used for composition of all the resouces in the solution."
-  default     = "voteapp789"
-
-  validation {
-    condition     = can(regex("^[[:alnum:]]+$", var.application_name))
-    error_message = "Application name must be composed by integers and lower-case letters only."
-  }
-}
-
 variable "main_location" {
   type        = string
   description = "The location of the Main site."
@@ -41,15 +30,9 @@ variable "failover_instance" {
   default     = "002"
 }
 
-### AKS
-
-variable "aks_vm_size" {
-  description = "Kubernetes VM size"
+variable "jumbbox_vm_password" {
   type        = string
-  default     = "Standard_B2s"
-}
-
-variable "aks_node_count" {
-  type    = number
-  default = 1
+  description = "The password to connect to the Jumpbox VM"
+  default     = "P@ssw0rd.123"
+  sensitive   = true
 }

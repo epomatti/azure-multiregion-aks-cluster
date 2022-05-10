@@ -12,7 +12,6 @@ resource "azurerm_key_vault" "default" {
     bypass                     = "AzureServices"
     default_action             = "Deny"
     virtual_network_subnet_ids = [var.aks_subnet_id, var.jumpbox_subnet_id]
-    # virtual_network_subnet_ids = [var.aks_subnet_id, var.bastion_subnet_id]
   }
 
   sku_name = "standard"

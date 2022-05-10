@@ -1,5 +1,5 @@
 resource "azurerm_network_interface" "main" {
-  name                = "nic-${var.workload_name}"
+  name                = "nic-jumpbox-${var.workload_name}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
@@ -13,7 +13,7 @@ resource "azurerm_network_interface" "main" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  name                  = "vm-${var.workload_name}"
+  name                  = "vm-jumpbox-${var.workload_name}"
   resource_group_name   = var.resource_group_name
   location              = var.location
   network_interface_ids = [azurerm_network_interface.main.id]
@@ -30,7 +30,7 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   storage_os_disk {
-    name              = "myosdisk1"
+    name              = "disk-jumpbox-${var.workload_name}"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "StandardSSD_LRS"
@@ -39,8 +39,8 @@ resource "azurerm_virtual_machine" "main" {
   os_profile {
     computer_name  = "jumpbox"
     admin_username = "azadm"
-    admin_password = "P@ssw0rd.123"
-    custom_data = filebase64("scripts/tools.sh")
+    admin_password = var.password
+    custom_data    = filebase64("${path.module}/tools.sh")
   }
 
   os_profile_linux_config {

@@ -41,5 +41,6 @@ module "jumpbox" {
   resource_group_name = module.group.name
   location            = var.location
   subnet_id           = module.vnet.jumpbox_subnet_id
+  password            = var.jumbbox_vm_password
   tags                = var.tags
 }

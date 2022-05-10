@@ -46,37 +46,3 @@ resource "azurerm_subnet" "voteapp_aks" {
   address_prefixes                               = ["10.90.0.0/16"]
   service_endpoints                              = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
 }
-
-resource "azurerm_subnet" "voteapp_cosmos" {
-  name                 = "subnet-cosmos"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.10.10.0/24"]
-}
-
-resource "azurerm_subnet" "voteapp_keyvault" {
-  name                 = "subnet-keyvault"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.10.20.0/24"]
-}
-
-# resource "azurerm_subnet_network_security_group_association" "subnet-gateway" {
-#   subnet_id                 = azurerm_subnet.voteapp_gateway.id
-#   network_security_group_id = var.nsg_id
-# }
-
-# resource "azurerm_subnet_network_security_group_association" "subnet-aks" {
-#   subnet_id                 = azurerm_subnet.voteapp_aks.id
-#   network_security_group_id = var.nsg_id
-# }
-
-# resource "azurerm_subnet_network_security_group_association" "subnet-cosmos" {
-#   subnet_id                 = azurerm_subnet.voteapp_cosmos.id
-#   network_security_group_id = var.nsg_id
-# }
-
-# resource "azurerm_subnet_network_security_group_association" "subnet-keyvault" {
-#   subnet_id                 = azurerm_subnet.voteapp_keyvault.id
-#   network_security_group_id = var.nsg_id
-# }
