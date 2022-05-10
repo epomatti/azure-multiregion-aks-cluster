@@ -18,7 +18,15 @@ variable "aks_main_subnet_id" {
   type = string
 }
 
+variable "aks_failover_subnet_id" {
+  type = string
+}
+
 variable "jumpbox_main_subnet_id" {
+  type = string
+}
+
+variable "jumpbox_failover_subnet_id" {
   type = string
 }
 

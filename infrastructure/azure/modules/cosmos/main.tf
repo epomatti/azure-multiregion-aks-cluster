@@ -12,12 +12,22 @@ resource "azurerm_cosmosdb_account" "default" {
   # Added Portal and Azure Pulic DCs (https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall)
   ip_range_filter = "0.0.0.0,104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
 
+  # AKS Subnets
   virtual_network_rule {
     id = var.aks_main_subnet_id
   }
 
   virtual_network_rule {
+    id = var.aks_failover_subnet_id
+  }
+
+  # Jumpbox VM Subnets
+  virtual_network_rule {
     id = var.jumpbox_main_subnet_id
+  }
+
+  virtual_network_rule {
+    id = var.jumpbox_failover_subnet_id
   }
 
   capabilities {

@@ -27,6 +27,10 @@ variable "jumpbox_subnet_id" {
   type = string
 }
 
+variable "backup_jumpbox_subnet_id" {
+  type = string
+}
+
 variable "cosmos_primary_connection_tring" {
   type      = string
   sensitive = true
@@ -94,13 +98,13 @@ module "app_registration" {
 
 
 module "kv" {
-  source              = "../modules/keyvault"
-  root_name           = local.workload_name
-  resource_group_name = module.group.name
-  location            = var.location
-  aks_subnet_id       = var.aks_subnet_id
-  jumpbox_subnet_id   = var.jumpbox_subnet_id
-  # bastion_subnet_id               = module.vnet_main.bastion_subnet_id
+  source                          = "../modules/keyvault"
+  root_name                       = local.workload_name
+  resource_group_name             = module.group.name
+  location                        = var.location
+  aks_subnet_id                   = var.aks_subnet_id
+  jumpbox_subnet_id               = var.jumpbox_subnet_id
+  backup_jumpbox_subnet_id        = var.backup_jumpbox_subnet_id
   aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
   cosmos_connection_string        = var.cosmos_primary_connection_tring
   tags                            = var.tags
