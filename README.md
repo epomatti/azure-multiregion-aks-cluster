@@ -22,12 +22,24 @@ terraform -chdir='infrastructure/network' apply -auto-approve
 
 You can now connect to the JumpBox VM using Bastion, and securely access the Kubernetes network.
 
-The JumpBox machine will be configured with a `cloud-init` script to install Terraform, Azure CLI, Kubectl.
+### 3 - Connect to Azure Bastion
+
+The jumpbox machine will be initiated with a `cloud-init` script to install Terraform, Azure CLI and Kubectl automatically.
+
+Use Bastion to connect to the Virtual Machine and clone /download the source code again.
+
+### 4 - Workload Infrastructure
+
+This will create all of the Azure resources: AKS, Cosmos, Ingress, Key Vault, Log Analytics, and many others.
+
+```sh
+terraform -chdir='infrastructure/azure' init
+terraform -chdir='infrastructure/azure' apply -auto-approve
+```
 
 ### 3 - Azure Resources Deployment
 
-```
-# Setup Secrets and ConfigMaps in Kubernetes
+```sh
 terraform -chdir='infrastructure/kubernetes' init
 terraform -chdir='infrastructure/kubernetes' apply -auto-approve
 ```

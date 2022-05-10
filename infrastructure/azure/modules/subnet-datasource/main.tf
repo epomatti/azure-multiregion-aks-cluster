@@ -1,6 +1,6 @@
 # Variables
 
-variable "environemnt" {
+variable "environment" {
   type = string
 }
 
@@ -11,8 +11,8 @@ variable "instance" {
 # Params
 
 locals {
-  rg_name   = "rg-network-${var.environemnt}-${var.instance}"
-  vnet_name = "vnet-network-${var.environemnt}-${var.instance}"
+  rg_name   = "rg-network-${var.environment}-${var.instance}"
+  vnet_name = "vnet-network-${var.environment}-${var.instance}"
 }
 
 # Data Sources
