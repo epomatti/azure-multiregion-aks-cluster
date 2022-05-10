@@ -26,7 +26,7 @@ data "azurerm_subnet" "jumpbox" {
 data "azurerm_subnet" "aks" {
   name                 = "subnet-aks"
   virtual_network_name = local.vnet_name
-  source_group_name    = local.rg_name
+  resource_group_name    = local.rg_name
 }
 
 data "azurerm_subnet" "gateway" {
