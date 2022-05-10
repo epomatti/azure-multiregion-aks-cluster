@@ -15,17 +15,6 @@ resource "azurerm_frontdoor" "default" {
     }
   }
 
-  # routing_rule {
-  #   name               = "Failover-IngressRoutingRule"
-  #   accepted_protocols = ["Http", "Https"]
-  #   patterns_to_match  = ["/*"]
-  #   frontend_endpoints = ["IngressFrontend"]
-  #   forwarding_configuration {
-  #     forwarding_protocol = "MatchRequest"
-  #     backend_pool_name   = "Failover-IngressBackendPool"
-  #   }
-  # }
-
   # Load Balancing
 
   backend_pool_load_balancing {
@@ -55,6 +44,7 @@ resource "azurerm_frontdoor" "default" {
       address     = var.main_ingress_address
       http_port   = 80
       https_port  = 443
+      priority    = 1
     }
 
     load_balancing_name = "Main-IngressLoadBalancing"
@@ -68,6 +58,7 @@ resource "azurerm_frontdoor" "default" {
       address     = var.failover_ingress_address
       http_port   = 80
       https_port  = 443
+      priority    = 2
     }
 
     load_balancing_name = "Failover-IngressLoadBalancing"
