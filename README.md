@@ -61,6 +61,12 @@ terraform -chdir='infrastructure/kubernetes' apply -auto-approve
 
 This step needs to be performed in the Main and Failover instances.
 
+You can use TF output to connect to Kubernetes:
+
+```terraform
+aks_get_credentials_command = "az aks get-credentials -g <rg> -n <aks>"
+```
+
 
 ### 7 - Kubernetes Manifest Deployment
 
