@@ -24,7 +24,18 @@ You can check it in isolation in my repo [azure-workload-identity-terraform](htt
 
 Follow these steps to deploy the complete demonstration solution.
 
-### 1 - Enable OIDC Issuer
+```mermaid
+graph TD
+    oidc(1 - Enable OIDC Issuer)
+    oidc --> network(2 - Deploy Network Infrastructure)
+    network -->|3 -Connect to Bastion| workload(4 - Deploy Workload Infrastructure)
+    workload --> awi(5 - Install AWI - via Helm Provider)
+    awi --> kubernetes(6 - Setup K8S objects - via Kubernetes Provider)
+    kubernetes -->|kubectl| pods(7a - Deploy Kuberentes Pods & Services - yaml)
+    pods --> ingress(7b - Deploy Ingress Controller Rules - yaml)
+```
+
+### 1 - Enable OIDC Issuer (Preview)
 
 Enable [OIDC Preview](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#oidc-issuer-preview) as part of Managed Identity configuration. Follow the documentation and once finished, return here to create to continue.
 
