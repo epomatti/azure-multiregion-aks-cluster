@@ -47,6 +47,12 @@ module "subnets_main" {
   instance    = var.main_instance
 }
 
+module "subnets_failover" {
+  source      = "./modules/subnet-datasource"
+  environment = var.environment
+  instance    = var.failover_instance
+}
+
 ### Global Setup
 
 module "rg_global" {
@@ -82,6 +88,21 @@ module "workload_main" {
   aks_vm_size                     = var.aks_vm_size
   aks_node_count                  = var.aks_node_count
   tags                            = local.main_tags
+}
+
+module "workload_failover" {
+  source                          = "./workload"
+  application_name                = var.application_name
+  location                        = var.failover_location
+  environment                     = var.environment
+  instance                        = var.failover_instance
+  gateway_subnet_id               = module.subnets_failover.gateway_subnet_id
+  aks_subnet_id                   = module.subnets_failover.aks_subnet_id
+  jumpbox_subnet_id               = module.subnets_failover.jumpbox_subnet_id
+  cosmos_primary_connection_tring = module.cosmos.primary_connection_tring
+  aks_vm_size                     = var.aks_vm_size
+  aks_node_count                  = var.aks_node_count
+  tags                            = local.failover_tags
 }
 
 

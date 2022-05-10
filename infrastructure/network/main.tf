@@ -30,10 +30,11 @@ module "network_main" {
   tags                = local.main_tags
 }
 
-# module "network_failover" {
-#   source      = "./network"
-#   location    = var.failover_location
-#   environment = var.environment
-#   instance    = var.failover_instance
-#   tags        = local.failover_tags
-# }
+module "network_failover" {
+  source              = "../azure/network"
+  location            = var.failover_location
+  environment         = var.environment
+  instance            = var.failover_instance
+  jumbbox_vm_password = var.jumbbox_vm_password
+  tags                = local.failover_tags
+}
