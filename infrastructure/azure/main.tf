@@ -71,7 +71,7 @@ module "cosmos" {
   aks_main_subnet_id        = module.subnets_main.aks_subnet_id
   aks_failover_subnet_id    = module.subnets_failover.aks_subnet_id
   jumpbox_main_subnet_id    = module.subnets_main.jumpbox_subnet_id
-  jumpbox_failver_subnet_id = module.subnets_failover.jumpbox_subnet_id
+  jumpbox_failover_subnet_id = module.subnets_failover.jumpbox_subnet_id
   tags                      = local.global_tags
 }
 
