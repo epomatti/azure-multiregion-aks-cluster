@@ -51,10 +51,12 @@ resource "azurerm_cosmosdb_account" "default" {
     failover_priority = 0
   }
 
-  geo_location {
-    location          = var.failover_location
-    failover_priority = 1
-  }
+  ### Serverless acounts do not support multiple regions
+
+  # geo_location {
+  #   location          = var.failover_location
+  #   failover_priority = 1
+  # }
 
   tags = var.tags
 
