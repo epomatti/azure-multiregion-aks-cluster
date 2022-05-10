@@ -22,6 +22,10 @@ variable "jumpbox_subnet_id" {
   type = string
 }
 
+variable "backup_jumpbox_subnet_id" {
+  type = string
+}
+
 variable "aks_service_principal_object_id" {
   type = string
 }
