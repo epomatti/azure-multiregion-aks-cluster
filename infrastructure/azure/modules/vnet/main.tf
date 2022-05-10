@@ -52,7 +52,6 @@ resource "azurerm_subnet" "voteapp_cosmos" {
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.10.10.0/24"]
-  service_endpoints    = ["Microsoft.AzureCosmosDB"]
 }
 
 resource "azurerm_subnet" "voteapp_keyvault" {
