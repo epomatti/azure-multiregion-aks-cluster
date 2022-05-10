@@ -10,9 +10,9 @@ variable "main_ingress_address" {
   type = string
 }
 
-# variable "failover_ingress_address" {
-#   type = string
-# }
+variable "failover_ingress_address" {
+  type = string
+}
 
 variable "tags" {
   type = map(string)

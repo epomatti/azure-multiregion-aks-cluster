@@ -63,32 +63,32 @@ module "rg_global" {
 }
 
 module "cosmos" {
-  source                    = "./modules/cosmos"
-  root_name                 = local.global_root_name
-  resource_group_name       = module.rg_global.name
-  main_location             = var.main_location
-  failover_location         = var.failover_location
-  aks_main_subnet_id        = module.subnets_main.aks_subnet_id
-  aks_failover_subnet_id    = module.subnets_failover.aks_subnet_id
-  jumpbox_main_subnet_id    = module.subnets_main.jumpbox_subnet_id
+  source                     = "./modules/cosmos"
+  root_name                  = local.global_root_name
+  resource_group_name        = module.rg_global.name
+  main_location              = var.main_location
+  failover_location          = var.failover_location
+  aks_main_subnet_id         = module.subnets_main.aks_subnet_id
+  aks_failover_subnet_id     = module.subnets_failover.aks_subnet_id
+  jumpbox_main_subnet_id     = module.subnets_main.jumpbox_subnet_id
   jumpbox_failover_subnet_id = module.subnets_failover.jumpbox_subnet_id
-  tags                      = local.global_tags
+  tags                       = local.global_tags
 }
 
 ### Workload
 
 module "workload_main" {
-  source                          = "./workload"
-  application_name                = var.application_name
-  location                        = var.main_location
-  environment                     = var.environment
-  instance                        = var.main_instance
-  gateway_subnet_id               = module.subnets_main.gateway_subnet_id
-  aks_subnet_id                   = module.subnets_main.aks_subnet_id
-  jumpbox_subnet_id               = module.subnets_main.jumpbox_subnet_id
-  
+  source            = "./workload"
+  application_name  = var.application_name
+  location          = var.main_location
+  environment       = var.environment
+  instance          = var.main_instance
+  gateway_subnet_id = module.subnets_main.gateway_subnet_id
+  aks_subnet_id     = module.subnets_main.aks_subnet_id
+  jumpbox_subnet_id = module.subnets_main.jumpbox_subnet_id
+
   # Allow failover Jumpbox to access KeyVault on Main region
-  backup_jumpbox_subnet_id        = module.subnets_failover.jumpbox_subnet_id
+  backup_jumpbox_subnet_id = module.subnets_failover.jumpbox_subnet_id
 
   cosmos_primary_connection_tring = module.cosmos.primary_connection_tring
   aks_vm_size                     = var.aks_vm_size
@@ -107,7 +107,7 @@ module "workload_failover" {
   jumpbox_subnet_id = module.subnets_failover.jumpbox_subnet_id
 
   # Allow main Jumpbox to access KeyVault on Failover region
-  backup_jumpbox_subnet_id        = module.subnets_main.jumpbox_subnet_id
+  backup_jumpbox_subnet_id = module.subnets_main.jumpbox_subnet_id
 
   cosmos_primary_connection_tring = module.cosmos.primary_connection_tring
   aks_vm_size                     = var.aks_vm_size
@@ -119,12 +119,12 @@ module "workload_failover" {
 ### Global Front Door
 
 module "frontdoor" {
-  source               = "./modules/frontdoor"
-  root_name            = "${var.application_name}-${var.environment}"
-  resource_group_name  = module.rg_global.name
-  main_ingress_address = module.workload_main.agw_public_ip_address
-  # failover_ingress_address = module.aks_failover.agw_public_ip_address
-  tags = local.main_tags
+  source                   = "./modules/frontdoor"
+  root_name                = "${var.application_name}-${var.environment}"
+  resource_group_name      = module.rg_global.name
+  main_ingress_address     = module.workload_main.agw_public_ip_address
+  failover_ingress_address = module.workload_failover.agw_public_ip_address
+  tags                     = local.global_tags
 }
 
 

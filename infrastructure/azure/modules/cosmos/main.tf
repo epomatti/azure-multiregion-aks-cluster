@@ -51,10 +51,10 @@ resource "azurerm_cosmosdb_account" "default" {
     failover_priority = 0
   }
 
-  # geo_location {
-  #   location          = var.failover_location
-  #   failover_priority = 1
-  # }
+  geo_location {
+    location          = var.failover_location
+    failover_priority = 1
+  }
 
   tags = var.tags
 

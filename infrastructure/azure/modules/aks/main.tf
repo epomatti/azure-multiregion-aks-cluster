@@ -20,10 +20,6 @@ resource "azurerm_kubernetes_cluster" "default" {
     subnet_id    = var.gateway_subnet_id
   }
 
-  # microsoft_defender {
-  #   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
-  # }
-
   network_profile {
     network_plugin     = "azure"
     dns_service_ip     = "10.0.0.10"
@@ -40,7 +36,6 @@ resource "azurerm_kubernetes_cluster" "default" {
   }
 
   tags = var.tags
-
 }
 
 

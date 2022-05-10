@@ -31,10 +31,6 @@ variable "gateway_subnet_id" {
   type = string
 }
 
-# variable "ingress_subnet_cidr" {
-#   type = string
-# }
-
 variable "log_analytics_workspace_id" {
   type = string
 }

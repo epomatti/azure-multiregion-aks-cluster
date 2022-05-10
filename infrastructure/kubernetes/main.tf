@@ -89,7 +89,7 @@ resource "kubernetes_config_map" "default" {
   }
 }
 
-### Deploy the Pod to Kubernetes
+### Deploy a sanity-check test pod for Worload Identity
 
 resource "kubernetes_pod" "quick_start" {
   metadata {
