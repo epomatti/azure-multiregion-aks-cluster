@@ -15,16 +15,16 @@ resource "azurerm_frontdoor" "default" {
     }
   }
 
-  routing_rule {
-    name               = "Failover-IngressRoutingRule"
-    accepted_protocols = ["Http", "Https"]
-    patterns_to_match  = ["/*"]
-    frontend_endpoints = ["IngressFrontend"]
-    forwarding_configuration {
-      forwarding_protocol = "MatchRequest"
-      backend_pool_name   = "Failover-IngressBackendPool"
-    }
-  }
+  # routing_rule {
+  #   name               = "Failover-IngressRoutingRule"
+  #   accepted_protocols = ["Http", "Https"]
+  #   patterns_to_match  = ["/*"]
+  #   frontend_endpoints = ["IngressFrontend"]
+  #   forwarding_configuration {
+  #     forwarding_protocol = "MatchRequest"
+  #     backend_pool_name   = "Failover-IngressBackendPool"
+  #   }
+  # }
 
   # Load Balancing
 
