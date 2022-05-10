@@ -1,10 +1,28 @@
 # Azure Multi-Region AKS Cluster
 
-A multi-region AKS cluster configured with Terraform.
+A multi-region AKS cluster managed using Terraform.
+
+This is an implementation derived from [AKS Baseline for Multiregion AKS Clusters](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-multi-region/aks-multi-cluster).
+
+## Solution Architecture
+
+(Working on this)
 
 <img src=".docs/multiregion-aks.png" />
 
+### Workload Identity
+
+This solution also implements Azure Workload Identity.
+
+Enabling Pods to connect directly to the Key Vaults without exchanging the KV token ended up being it's own separate project.
+
+You can check it in isolation in my repo [azure-workload-identity-terraform](https://github.com/epomatti/azure-workload-identity-terraform).
+
+![Tux, the Linux mascot][2]
+
 ## Cloud Deployment
+
+Follow these steps to deploy the complete demonstration solution.
 
 ### 1 - Enable OIDC Issuer
 
@@ -164,3 +182,6 @@ Or with Docker Compose:
 docker-compose build
 docker-compose up
 ```
+
+
+[2]: .docs/workload-identity.svg
