@@ -144,13 +144,6 @@ pipenv shell
 python3 -m flask run
 ```
 
-Starting the frontend (under development):
-
-```sh
-yarn install
-yarn dev -o
-```
-
 ### Local development with Cloud resources
 
 This will create the necessary resources to develop locally but with Azure resources instead of locals, which is useful to test before pushing for integration testing.
