@@ -6,9 +6,7 @@ This is an implementation derived from [AKS Baseline for Multiregion AKS Cluster
 
 ## Solution Architecture
 
-(Working on this)
-
-<img src=".docs/multiregion-aks.png" />
+![Multi-region Solution][1]
 
 ### Workload Identity
 
@@ -18,7 +16,7 @@ Enabling Pods to connect directly to the Key Vaults without exchanging the KV to
 
 You can check it in isolation in my repo [azure-workload-identity-terraform](https://github.com/epomatti/azure-workload-identity-terraform).
 
-![Tux, the Linux mascot][2]
+![Worload Identity][2]
 
 ## Cloud Deployment
 
@@ -187,5 +185,5 @@ docker-compose build
 docker-compose up
 ```
 
-
+[1]: .docs/multiregion-aks.drawio.svg
 [2]: .docs/workload-identity.svg
