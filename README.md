@@ -141,6 +141,12 @@ pipenv shell
 # start
 python3 -m flask run
 ```
+### Core Module
+
+```
+poetry install
+poetry shell
+```
 
 ### Local development with Cloud resources
 
