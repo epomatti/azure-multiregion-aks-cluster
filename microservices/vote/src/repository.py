@@ -1,7 +1,6 @@
-from . import mongo
+from epomatti_aksmrc_core import mongo
 
-
-def vote(vote):
+def add_vote(vote):
     return _get_collection().insert_one(vote)
 
 

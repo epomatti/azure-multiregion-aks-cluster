@@ -1,5 +1,5 @@
 from bson import ObjectId
-from . import mongo
+from epomatti_aksmrc_core import mongo
 
 
 def create_poll(poll):
