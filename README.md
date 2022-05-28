@@ -131,6 +131,9 @@ Working with the microservices (open each one individually on VS Code for a bett
 # Creates venv in project
 mkdir .venv
 
+cp config/dev.env .env
+cp config/dev.flaskenv .flaskenv
+
 # Ad-hoc fix for https://github.com/pypa/setuptools/issues/3278
 export SETUPTOOLS_USE_DISTUTILS=stdlib
 
@@ -143,9 +146,20 @@ python3 -m flask run
 ```
 ### Core Module
 
-```
+Common code is shared in the `core` module.
+
+To code in it:
+
+```bash
 poetry install
 poetry shell
+```
+
+To publish, bump the version in `pyproject.toml` and then:
+
+```bash
+poetry build
+poetry publish
 ```
 
 ### Local development with Cloud resources

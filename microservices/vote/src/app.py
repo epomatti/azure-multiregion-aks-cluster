@@ -2,7 +2,7 @@ from flask import Flask, request
 from dotenv import load_dotenv
 
 from src import microservices, repository
-from src.validators import validate_schema
+from epomatti_aksmrc_core import validators
 from src.schemas import vote_schema
 
 
@@ -17,7 +17,7 @@ def readiness():
     return "Ready", 200
 
 
-@validate_schema(schema=vote_schema)
+@validators.validate_schema(schema=vote_schema)
 @app.route(BASE_PATH, methods=['POST'])
 def post():
     vote_json = request.get_json()

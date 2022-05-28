@@ -12,6 +12,7 @@ requests = "*"
 azure-keyvault-secrets = "*"
 azure-identity = "*"
 msal = "*"
+epomatti-aksmrc-core = "*"
 
 [dev-packages]
 autopep8 = "*"
