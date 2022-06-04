@@ -206,4 +206,4 @@ docker-compose up
 ```
 
 [1]: .docs/multiregion-aks.png
-[2]: .docs/workload-identity.svg
+[2]: .docs/workload-identity.png
